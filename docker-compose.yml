@@ -1,0 +1,34 @@
+version: "2"
+services:
+  pythonapp:
+    build:
+      context: .
+      dockerfile: ./dockerfile/Dockerfile_python35
+    depends_on:
+      - data
+      - postgres
+    volumes:
+      - ./pythonapp:/usr/src/app
+    env_file:
+      - ./env/pythonapp.env
+    environment:
+      - FLASK_DEBUG=1
+    ports:
+      - "5000:5000"
+  postgres:
+    image: postgres:9.5.4
+    env_file:
+      - ./env/db.env
+    volumes_from:
+      - data
+    depends_on:
+      - data
+    volumes:
+      - ./sql:/usr/sql
+  data:
+    image: busybox
+    volumes:
+      - psdata:/var/lib/postgresql/data
+volumes:
+  psdata:
+    external: true
