@@ -1,5 +1,15 @@
 version: "2"
 services:
+  nodeapp:
+    build:
+      context: .
+      dockerfile: ./dockerfile/Dockerfile_nodejs
+    depends_on:
+      - data
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./nodeapp:/usr/src/app
   pythonapp:
     build:
       context: .
@@ -7,14 +17,12 @@ services:
     depends_on:
       - data
       - postgres
-    volumes:
-      - ./pythonapp:/usr/src/app
     env_file:
       - ./env/pythonapp.env
     environment:
       - FLASK_DEBUG=1
-    ports:
-      - "5000:5000"
+    volumes:
+      - ./pythonapp:/usr/src/app
   postgres:
     image: postgres:9.5.4
     env_file:
