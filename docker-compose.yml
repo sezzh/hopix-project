@@ -6,8 +6,11 @@ services:
       dockerfile: ./dockerfile/Dockerfile_nodejs
     depends_on:
       - data
+      - authservice
     volumes:
       - ./web-platform:/usr/src/app
+    ports:
+      - "3000:3000"
   authservice:
     build:
       context: .
