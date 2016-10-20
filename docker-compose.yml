@@ -30,7 +30,7 @@ services:
     depends_on:
       - data
     volumes:
-      - ./sql:/usr/sql
+      - ./auth-service/sql:/usr/sql
   gateway:
     image: nginx:stable
     volumes:
