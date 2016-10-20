@@ -1,30 +1,28 @@
 version: "2"
 services:
-  nodeapp:
+  webplatform:
     build:
       context: .
       dockerfile: ./dockerfile/Dockerfile_nodejs
     depends_on:
       - data
-    ports:
-      - "3000:3000"
     volumes:
-      - ./nodeapp:/usr/src/app
-  pythonapp:
+      - ./web-platform:/usr/src/app
+  authservice:
     build:
       context: .
       dockerfile: ./dockerfile/Dockerfile_python35
     depends_on:
       - data
-      - postgres
+      - authservice_db
     env_file:
       - ./env/pythonapp.env
     environment:
       - FLASK_DEBUG=1
     volumes:
-      - ./pythonapp:/usr/src/app
-  postgres:
-    image: postgres:9.5.4
+      - ./auth-service:/usr/src/app
+  authservice_db:
+    image: postgres:9.6.0
     env_file:
       - ./env/db.env
     volumes_from:
@@ -33,6 +31,14 @@ services:
       - data
     volumes:
       - ./sql:/usr/sql
+  gateway:
+    image: nginx:stable
+    volumes:
+      - ./gateway:/etc/nginx/conf.d
+    ports:
+      - "8080:80"
+    depends_on:
+      - webplatform
   data:
     image: busybox
     volumes:

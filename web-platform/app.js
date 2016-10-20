@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/test', (req, res) => {
-  request('http://pythonapp:5000/test', (error, response, body) => {
+  request('http://authservice:5000/test', (error, response, body) => {
     if (!error && response.statusCode === 200) {
       res.send(body)
     }
