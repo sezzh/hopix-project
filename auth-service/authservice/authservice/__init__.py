@@ -1,6 +1,8 @@
 from flask import Flask
-from authservice.api_test import api_test
+from authservice.superusers import superusers
+from authservice.managers import managers
 
 
 app = Flask(__name__)
-app.register_blueprint(api_test, url_prefix='/test')
+app.register_blueprint(superusers)
+app.register_blueprint(managers)

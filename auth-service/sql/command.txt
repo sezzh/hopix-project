@@ -1,0 +1,1 @@
+psql -h localhost -U postgres --file=init_database.sql --variable=BDNAME=test --variable=PASSWORDDB="'test'" --variable=PROJECTUSER=test
