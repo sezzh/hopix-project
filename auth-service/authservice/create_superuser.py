@@ -1,8 +1,11 @@
-#! /usr/bin/python3.5
-from authservice.superuser.models import Superuser, engine
+#! /usr/bin/python
+from authservice.superusers.models import Superuser, engine
 from sqlalchemy.orm import sessionmaker
 Session = sessionmaker(bind=engine)
 session = Session()
+
+""" Función para la creación de los superuser.
+"""
 
 
 def manager():

@@ -7,7 +7,6 @@ from sqlalchemy_utils import Password, PasswordType
 
 Base = declarative_base()
 Column(Integer, Sequence('superuser_id_seq'), primary_key=True)
-
 engine = create_engine(
     "postgresql://test:test@authservice_db/test?client_encoding=utf8"
     )
