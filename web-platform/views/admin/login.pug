@@ -9,6 +9,18 @@ block header
 block content
   section(class='section-login-container' method='post' action='/login')
     form(class='section-login-container__form')
-      input(class='section-login-container__form__field' type='text' name='username')
-      input(class='section-login-container__form__field' type='password' name='password')
-      button(class='section-login-container__form__button') Login
+      input(
+        class='input  section-login-container__form__field'
+        type='text'
+        name='username'
+        placeholder='Usuario'
+      )
+      input(
+        class='input  section-login-container__form__field'
+        type='password'
+        name='password'
+        placeholder='Contraseña'
+      )
+      button(
+        class='btn  btn--login section-login-container__form__btn'
+      ) Iniciar Sesión

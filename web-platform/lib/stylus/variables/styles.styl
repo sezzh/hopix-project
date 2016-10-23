@@ -1,13 +1,34 @@
-// Color variables
+// Color scheme.
 
 dark-primary-color = rgba(229, 6, 89, 1)
 primary-color = rgba(242, 82, 141, 1)
 light-primary-color = rgba(251, 172, 201, 1)
 accent-color = rgba(161, 217, 116, 1)
 
+
+// Text colors.
 light-text-icons-color = #FEFEFE
 dark-text-icons-color = #010101
 light-primary-text-color = #FEFEFE
 light-secondary-text-color = #757575
 dark-primary-text-color = #212121
+
+// Neutral colors.
 divider-color = #BDBDBD
+warning-color = rgba(254, 203, 0, 1)
+error-color = rgba(244, 55, 55, 1)
+
+//font settings
+
+@font-face
+  font-family 'andika_new_basicregular'
+  font-weight normal
+  font-style normal
+  src url('/static/fonts/andika/andikanewbasic-r-webfont.woff'),
+  url('/static/fonts/andika/andikanewbasic-r-webfont.woff2')
+
+primary-font-normal = 'andika_new_basicregular'
+//defaults
+
+.wrapper
+  background-color accent-color
