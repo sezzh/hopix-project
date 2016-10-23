@@ -1,3 +1,6 @@
 *.pyc
 __pycache__
 node_modules
+npm-debug.log
+web-platform/static/css/styles.css
+web-platform/public/*

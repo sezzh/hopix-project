@@ -1,0 +1,14 @@
+extends ../index.pug
+
+block title
+  title Inicia sesión
+
+block header
+  include ../header.pug
+
+block content
+  section(class='section-login-container' method='post' action='/login')
+    form(class='section-login-container__form')
+      input(class='section-login-container__form__field' type='text' name='username')
+      input(class='section-login-container__form__field' type='password' name='password')
+      button(class='section-login-container__form__button') Login
