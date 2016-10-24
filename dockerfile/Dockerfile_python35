@@ -8,4 +8,4 @@ COPY ./auth-service/requirements.txt /usr/src/app
 RUN pip install -r /usr/src/app/requirements.txt
 COPY ./auth-service /usr/src/app
 
-CMD ["python", "/usr/src/app/authservice/runserver.py"]
+CMD ["python", "/usr/src/app/runserver.py"]
