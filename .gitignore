@@ -1,5 +1,3 @@
 *.pyc
 __pycache__
 node_modules
-auth-service/sql/schema.sql
-auth-service/sql/test.sql

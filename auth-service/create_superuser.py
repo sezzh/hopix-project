@@ -1,6 +1,10 @@
-#! /usr/bin/python
-from authservice.superusers.models import Superuser, engine
+#! /usr/bin/env python
+from authservice.superusers.models import Superusers
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
+from config import SQLALCHEMY_DATABASE_URI
+
+engine = create_engine(SQLALCHEMY_DATABASE_URI)
 Session = sessionmaker(bind=engine)
 session = Session()
 
@@ -10,9 +14,12 @@ session = Session()
 
 def manager():
     print("New superuser")
+    email = input("email: ")
     name = input("Name: ")
     password = input("Password: ")
-    superuser = Superuser(name=name, password=password)
+    superuser = Superusers(
+        email, name=name, is_active='True', password=password
+    )
     session.add(superuser)
     session.commit()
 
