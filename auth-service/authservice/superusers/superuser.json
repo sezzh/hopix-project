@@ -2,11 +2,10 @@
   "data": {
     "type": "superusers",
     "attributes": {
-      "name": "pascual",
-      "email": "pascual@pascual.in",
+      "name": "username",
+      "email": "email@co.in",
       "is_active": "false",
-      "password": "$pbkdf2-sha256$6400$0ZrzXitFSGltTQnBWOsdAw$Y11AchqV4b0sUisdZd0Xr97KWoymNE0LNNrnEgY4H9M",
-      "role":"superuser"
+      "password": "my$password"
     }
   }
 }

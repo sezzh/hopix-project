@@ -5,6 +5,8 @@ from flask_restful import Api, Resource
 from sqlalchemy.exc import SQLAlchemyError
 from marshmallow import ValidationError
 
+from authservice import encrypt
+
 superusers = Blueprint('superusers', __name__)
 schema = SuperusersSchema()
 api = Api(superusers)
@@ -24,12 +26,17 @@ class SuperusersList(Resource):
         try:
                 schema.validate(raw_dict)
                 superuser_dict = raw_dict['data']['attributes']
+                password = (
+                    encrypt.encrypt_sha512(
+                        superuser_dict['password'], 10000, 10
+                    )
+                )
                 superuser = Superusers(
                     superuser_dict['email'],
                     superuser_dict['name'],
                     superuser_dict['is_active'],
-                    superuser_dict['password']
-                    )
+                    password
+                )
                 # import pdb; pdb.set_trace()
                 # superuser.add(superuser)
                 # query = Superusers.query.get(superuser.id)
@@ -71,7 +78,13 @@ class SuperusersUpdate(Resource):
             superuser_dict = raw_dict['data']['attributes']
 
             for key, value in superuser_dict.items():
-                setattr(superuser, key, value)
+                if key == "password":
+                    password = (
+                        encrypt.encrypt_sha512(value, 10000, 10)
+                    )
+                    setattr(superuser, key, password)
+                else:
+                    setattr(superuser, key, value)
             superuser.update()
             return self.get(id)
 

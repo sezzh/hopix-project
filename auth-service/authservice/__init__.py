@@ -1,8 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, Response
+from authservice.lib import encrypt
 
 db = SQLAlchemy()
 
+encrypt = encrypt
 # http://flask.pocoo.org/docs/0.11/patterns/appfactories/
 
 

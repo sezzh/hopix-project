@@ -1,9 +1,6 @@
 from marshmallow_jsonapi import Schema, fields
 from marshmallow import validate
 from sqlalchemy.exc import SQLAlchemyError
-# from sqlalchemy_utils.types import password
-# from passlib.hash import pbkdf2_sha512, md5_crypt
-# from sqlalchemy_utils import Password, PasswordType
 from authservice import db
 
 
@@ -51,7 +48,6 @@ class SuperusersSchema(Schema):
     email = fields.Email(validate=not_blank)
     name = fields.String(validate=not_blank)
     is_active = fields.Boolean()
-    password = fields.String(validate=not_blank)
 
     # self links
 

@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify, make_response
 from authservice.managers.models import Managers, ManagersSchema, db
 from flask_restful import Api, Resource
-
 from sqlalchemy.exc import SQLAlchemyError
 from marshmallow import ValidationError
+from authservice import encrypt
 
 managers = Blueprint('managers', __name__)
 schema = ManagersSchema()
@@ -24,11 +24,16 @@ class ManagersList(Resource):
         try:
                 schema.validate(raw_dict)
                 manager_dict = raw_dict['data']['attributes']
+                password = (
+                    encrypt.encrypt_sha512(
+                        manager_dict['password'], 10000, 10
+                    )
+                )
                 manager = Managers(
                     manager_dict['email'],
                     manager_dict['name'],
                     manager_dict['is_active'],
-                    manager_dict['password']
+                    password
                     )
                 # import pdb; pdb.set_trace()
                 manager.add(manager)
@@ -63,7 +68,13 @@ class ManagersUpdate(Resource):
             manager_dict = raw_dict['data']['attributes']
 
             for key, value in manager_dict.items():
-                setattr(manager, key, value)
+                if key == "password":
+                    password = (
+                        encrypt.encrypt_sha512(value, 10000, 10)
+                    )
+                    setattr(manager, key, password)
+                else:
+                    setattr(manager, key, value)
             manager.update()
             return self.get(id)
 

@@ -48,7 +48,6 @@ class ManagersSchema(Schema):
     email = fields.Email(validate=not_blank)
     name = fields.String(validate=not_blank)
     is_active = fields.Boolean()
-    password = fields.String(validate=not_blank)
 
     # self links
 
