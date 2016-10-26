@@ -31,10 +31,18 @@ class SuperusersList(Resource):
                     superuser_dict['password']
                     )
                 # import pdb; pdb.set_trace()
-                superuser.add(superuser)
-                query = Superusers.query.get(superuser.id)
-                results = schema.dump(query).data
-                return results, 201
+                # superuser.add(superuser)
+                # query = Superusers.query.get(superuser.id)
+                # results = schema.dump(query).data
+                # return results, 201
+                resp = (
+                    jsonify(
+                        {"error": "The method is not allowed"
+                            " for the requested URL."}
+                    )
+                )
+                resp.status_code = 403
+                return resp
 
         except ValidationError as err:
                 resp = jsonify({"error": err.messages})
@@ -63,8 +71,8 @@ class SuperusersUpdate(Resource):
             superuser_dict = raw_dict['data']['attributes']
 
             for key, value in superuser_dict.items():
-                setattr(user, key, value)
-            user.update()
+                setattr(superuser, key, value)
+            superuser.update()
             return self.get(id)
 
         except ValidationError as err:

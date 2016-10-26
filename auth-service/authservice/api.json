@@ -1,0 +1,8 @@
+{
+  "data": {
+    "links": [
+        "http://localhost:5000/api/v1/superusers.json",
+        "http://localhost:5000/api/v1/managers.json"
+    ]
+  }
+}
