@@ -1,6 +1,13 @@
 const express = require('express')
+const passport = require('passport')
 
 var router = express.Router()
+
+var passportOpt = {
+  successRedirect: '/',
+  failureRedirect: '/login',
+  failureFlash: true
+}
 
 router.get('/', (req, res) => {
   res.render(
@@ -24,7 +31,9 @@ router.get('/login', (req, res) => {
   )
 })
 
-router.post('/login', (req, res) => {
+router.post('/login',
+passport.authenticate('local', passportOpt),
+(req, res) => {
   console.dir(req.body)
   res.send('okis')
 })
