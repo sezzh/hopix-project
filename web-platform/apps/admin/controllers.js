@@ -17,8 +17,16 @@ router.get('/', (req, res) => {
 
 router.get('/login', (req, res) => {
   res.render(
-    'admin/login'
+    'admin/login',
+    {
+      csrfToken: req.csrfToken()
+    }
   )
+})
+
+router.post('/login', (req, res) => {
+  console.dir(req.body)
+  res.send('okis')
 })
 
 module.exports = router

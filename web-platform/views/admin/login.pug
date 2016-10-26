@@ -7,23 +7,39 @@ block header
   include ../header.pug
 
 block content
-  section(class='section-login-container' method='post' action='/login')
-    form(class='section-login-container__form')
+  section(class='section-login-container')
+    form(
+      class='section-login-container__form'
+      data-login='form'
+      method='post'
+      action='/admin/login'
+    )
       input(
         class='input  section-login-container__form__field'
         type='text'
-        name='username'
         placeholder='Usuario'
+        data-login='data-username'
       )
       input(
         class='input  section-login-container__form__field'
         type='password'
-        name='password'
         placeholder='Contraseña'
+        data-login='data-password'
+      )
+      input(
+        type='hidden'
+        value= csrfToken
+        name='_csrf'
+        data-login='data-token'
       )
       button(
         class='btn  btn--login section-login-container__form__btn'
+        data-login='submit'
       ) Iniciar Sesión
+      span(
+        class='section-login-container__form__message-error'
+        data-login='message'
+      )
 
 block scripts
-  script(src='/static/bin/app.bundle.js')
+  script(src='/static/bin/login.bundle.js')

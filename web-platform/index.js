@@ -1,7 +1,11 @@
 const express = require('express')
 const http = require('http')
-const port = 3000
+const cookieParser = require('cookie-parser')
+const csrf = require('csurf')
+const bodyParser = require('body-parser')
 const routerAdmin = require('./apps/admin/controllers')
+const port = 3000
+
 var app = express()
 
 // Static folders.
@@ -12,7 +16,12 @@ app.use('/public', express.static(`${__dirname}/public`))
 app.set('view engine', 'pug')
 app.set('views', './views')
 
-// Routers.
+// crsf protection.
+app.use(bodyParser.json())
+app.use(cookieParser())
+app.use(csrf({ cookie: true }))
+
+// Internal Routers.
 app.use('/admin', routerAdmin)
 
 const server = http.createServer(app)

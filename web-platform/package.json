@@ -7,17 +7,23 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_PATH=./ node index.js",
     "dev": "NODE_PATH=./ nodemon -L --debug index.js",
-    "build-stylus": "NODE_PATH=./ stylus -u nib -w lib/stylus/*.styl -o static/css/styles.css"
+    "build-stylus": "NODE_PATH=./ stylus -u nib -w lib/stylus/*.styl -o static/css/styles.css",
+    "build-apps": "NODE_PATH=./ node webpack.config.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "csurf": "^1.9.0",
     "express": "^4.14.0",
+    "jsonwebtoken": "^7.1.9",
     "normalize.css": "^5.0.0",
     "pug": "^2.0.0-beta6",
-    "request": "^2.75.0"
+    "request": "^2.76.0"
   },
   "devDependencies": {
+    "axios": "^0.15.2",
     "jquery": "^3.1.1",
     "nib": "^1.1.2",
     "nodemon": "^1.11.0",

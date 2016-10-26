@@ -1,7 +1,38 @@
-module.exports = {
-  entry: './lib/src/index.js',
-  output: {
-    path: './static/bin/',
-    filename: 'app.bundle.js'
-  }
+const webpack = require('webpack')
+
+var watcherOpts = {
+  aggregateTimeout: 300,
+  poll: true
 }
+
+var webpackOpts = {
+  context: `${__dirname}/lib/src`,
+  // These are the apps from the template system.
+  entry: {
+    login: './login-app/index'
+  },
+  output: {
+    path: `${__dirname}/static/bin`,
+    filename: '[name].bundle.js'
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+      output: {
+        comments: false
+      }
+    })
+  ]
+}
+
+var compiler = webpack(webpackOpts)
+
+compiler.watch(watcherOpts, (err, stats) => {
+  if (err) {
+    console.error(err.message)
+  } else {
+    console.log('build done.')
+  }
+})

@@ -1,4 +1,5 @@
 .section-login-container
+  font-family primary-font-normal
   background-image url('/static/bg/crossword.png')
   background-repeat repeat
   grid()
@@ -15,3 +16,8 @@
       margin rem-calc(15) auto 0 auto
     &__btn
       margin rem-calc(15) auto
+    &__message-error
+      stack()
+      color error-color
+      display block
+      margin rem-calc(0) auto rem-calc(0) auto
