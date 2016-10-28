@@ -17,7 +17,9 @@ def create_app(config_filename):
     # Blueprints
     from authservice.superusers.views import superusers
     from authservice.managers.views import managers
+    from authservice.auth.views import tokens
     app.register_blueprint(superusers, url_prefix='/api/v1/superusers')
     app.register_blueprint(managers, url_prefix='/api/v1/managers')
+    app.register_blueprint(tokens, url_prefix='/auth/tokens')
 
     return app

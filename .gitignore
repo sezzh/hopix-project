@@ -2,3 +2,4 @@
 __pycache__
 node_modules
 env/authservice_secrets.env
+env/webplatform_secrets.env

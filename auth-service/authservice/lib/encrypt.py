@@ -15,6 +15,6 @@ def encrypt_sha512(password, rounds, salt):
 
 def check_sha512(unknown_password, valid_password):
     if unknown_password is None or valid_password is None:
-        return "Empty(s) Fiel(s)"
+        return "Sin parametros"
     else:
         return pbkdf2_sha512.verify(unknown_password, valid_password)
