@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const path = require('path')
 
 var watcherOpts = {
   aggregateTimeout: 300,
@@ -6,13 +7,13 @@ var watcherOpts = {
 }
 
 var webpackOpts = {
-  context: `${__dirname}/lib/src`,
+  context: path.join(__dirname, 'lib', 'src'),
   // These are the apps from the template system.
   entry: {
     login: './login-app/index'
   },
   output: {
-    path: `${__dirname}/static/bin`,
+    path: path.join(__dirname, 'static', 'bin'),
     filename: '[name].bundle.js'
   },
   plugins: [
