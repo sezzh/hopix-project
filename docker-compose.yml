@@ -19,7 +19,9 @@ services:
       - data
       - authservice_db
     env_file:
-      - ./env/pythonapp.env
+      - ./env/authservice.env
+      - ./env/authservice_db_secrets.env
+      - ./env/authservice_secrets.env
     environment:
       - FLASK_DEBUG=1
     volumes:
@@ -29,7 +31,8 @@ services:
   authservice_db:
     image: postgres:9.6.0
     env_file:
-      - ./env/db.env
+      - ./env/authservice_db.env
+      - ./env/authservice_pg_secrets.env
     volumes_from:
       - data
     depends_on:
