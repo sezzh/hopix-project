@@ -20,6 +20,8 @@ services:
       - authservice_db
     env_file:
       - ./env/authservice.env
+      - ./env/authservice_pg_secrets.env
+      - ./env/authservice_secrets.env
     environment:
       - FLASK_DEBUG=1
     volumes:
@@ -30,6 +32,7 @@ services:
     image: postgres:9.6.0
     env_file:
       - ./env/authservice_db.env
+      - ./env/authservice_db_secrets.env
     volumes_from:
       - data
     depends_on:

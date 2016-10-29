@@ -1,11 +1,13 @@
 from flask import Blueprint, request, jsonify
-from authservice.superusers.models import Superusers, UserSchema
+from authservice.superusers.models import Superusers
 from flask_restful import Resource, Api
 from marshmallow import ValidationError
 from authservice import encrypt
 from authservice.lib import jwt
+from datetime import timedelta, datetime
+
 tokens = Blueprint('tokens', __name__)
-schema = UserSchema()
+
 api = Api(tokens)
 
 
@@ -13,28 +15,38 @@ class Tokens(Resource):
     def post(self):
         p_raw_dict = request.get_json(force=True)
         try:
-            schema.validate(p_raw_dict)
-            p_superuser_dict = p_raw_dict['data']['attributes']
-            p_email = p_superuser_dict['email']
-            p_password = p_superuser_dict['password']
-            superuser = Superusers.query.filter_by(email=p_email).first()
-            if superuser is None:
-                resp = jsonify({"error": "El super usuario no exite"})
-                resp.status_code = 403
+            p_name = p_raw_dict['sub']
+            p_password = p_raw_dict['password']
+            user = Superusers.query.filter_by(name=p_name).first()
+            if user is None:
+                resp = jsonify(
+                    {"error": "¡El usuario y/o contraseña son incorectos!"}
+                    )
+                resp.status_code = 404
             else:
-                email = superuser.email
-                hash_encrypt = superuser.password
+                name = user.name
+                hash_encrypt = user.password
                 validate = encrypt.check_sha512(p_password, hash_encrypt)
-                if validate and (email == p_email):
-                    results = schema.dump(superuser).data
-                    token = jwt.encode_token(results)
-                    resp = {"token": token}
-                    return resp, 201
+                if validate and (name == p_name):
+                    expire = (
+                        datetime.utcnow() +
+                        timedelta(days=1460)
+                        )
+                    token = {
+                        "sub": user.name,
+                        'exp': expire,
+                        "id": user.id,
+                        "email": user.email,
+                        "is_active": user.is_active
+                    }
+                    results = jwt.encode_token(token)
+                    resp = jsonify({"token": results})
+                    resp.status_code = 201
                 else:
                     resp = jsonify(
-                        {"error": "Email y/o Contraseña Incorectos"})
+                        {"error": "¡El usuario y/o contraseña son incorectos!"}
+                        )
                     resp.status_code = 403
-                    return resp
             return resp
 
         except ValidationError as err:

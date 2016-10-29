@@ -1,19 +1,22 @@
+import os
+
 # Configuración de la base de datos
-# Variables de conexión
-pg_db_username = 'test'
-pg_db_password = 'test'
-pg_db_name = 'test'
-pg_db_hostname = 'authservice_db'
+# Variables de conexión Postgres
+pg_db_username = os.environ['AUTHSERVICE_PG_USERNAME_SECRET']
+pg_db_password = os.environ['AUTHSERVICE_PG_PASSWORD_SECRET']
+pg_db_name = os.environ['AUTHSERVICE_PG_NAME_SECRET']
+pg_db_hostname = os.environ['AUTHSERVICE_PG_HOST_SECRET']
+
 
 # Variables Flask
 DEBUG = True
 PORT = 5000
 HOST = "0.0.0.0"
+SECRET_KEY = os.environ['AUTHSERVICE_FLASK_SECRET']
 
 # Variables SQLALCHEMY
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
-SECRET_KEY = "My Secret key"
 
 # Variable de conexión de SQLALCHEMY para PostgreSQL
 SQLALCHEMY_DATABASE_URI = (
