@@ -1,0 +1,63 @@
+// Color scheme.
+
+// Base Palette
+
+purple-base-color = darken(rgba(147, 98, 148, 1), 10)
+yellow-base-color = rgba(226, 182, 71, 1)
+red-base-color = rgba(222, 75, 77, 1)
+black-base-color = rgba(33, 52, 59, 1)
+green-base-color = rgba(104, 180, 76, 1)
+
+// Base Grays Palette
+darker-base-gray = rgba(166, 166, 166, 1)
+dark-base-gray = rgba(220, 220, 220, 1)
+regular-base-gray = rgba(232, 232, 232, 1)
+light-base-gray = rgba(240, 240, 240, 1)
+
+// ui color stack
+dark-primary-color = darken(yellow-base-color, 20)
+primary-color = yellow-base-color
+light-primary-color = lighten(yellow-base-color, 20)
+accent-color = purple-base-color
+dark-accent-color = black-base-color
+
+
+// Text colors.
+light-text-icons-color = #FEFEFE
+dark-text-icons-color = #040404
+light-primary-text-color = #FEFEFE
+light-secondary-text-color = #757575
+dark-primary-text-color = #212121
+
+// Neutral colors.
+divider-color = #BDBDBD
+warning-color = rgba(255, 229, 94, 1)
+error-color = red-base-color
+
+//font settings
+
+@font-face
+  font-family 'andika_new_basicregular'
+  font-weight normal
+  font-style normal
+  src url('/static/fonts/andika/andikanewbasic-r-webfont.woff'),
+  url('/static/fonts/andika/andikanewbasic-r-webfont.woff2')
+
+@font-face
+  font-family 'graviola'
+  font-weight normal
+  font-style normal
+  src url(/static/fonts/graviola/graviola-regular-webfont.eot)
+  src url(/static/fonts/graviola/graviola-regular-webfont.eot?#iefix) format('embedded-opentype'),
+  url('/static/fonts/graviola/graviola-regular-webfont.woff2') format('woff2'),
+  url('/static/fonts/graviola/graviola-regular-webfont.woff') format('woff'),
+  url('/static/fonts/graviola/graviola-regular-webfont.ttf') format('truetype'),
+  url('/static/fonts/graviola/graviola-regular-webfont.svg#graviolaregular') format('svg')
+
+primary-font-normal = 'graviola'
+default-font-size = rem-calc(16)
+//defaults
+
+.wrapper
+  background-color dark-accent-color
+  font-family primary-font-normal
