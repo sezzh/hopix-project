@@ -11,6 +11,10 @@ services:
       - ./web-platform:/usr/src/app
     ports:
       - "3000:3000"
+      - "5858:5858"
+    env_file:
+      - ./env/webplatform.env
+      - ./env/webplatform_secrets.env
   authservice:
     build:
       context: .

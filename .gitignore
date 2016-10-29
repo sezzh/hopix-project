@@ -5,3 +5,7 @@ env/authservice_secrets.env
 env/webplatform_secrets.env
 env/authservice_pg_secrets.env
 env/authservice_db_secrets.env
+npm-debug.log
+web-platform/static/css/styles.css
+web-platform/public/*
+web-platform/static/bin/*.js
