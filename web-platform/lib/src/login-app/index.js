@@ -49,10 +49,11 @@
   function sendRequest (data) {
     axios.post('/admin/login', data).then(function (response) {
       // TODO
-      console.log(response)
+      if (response.data === 'done') {
+        window.location.assign('/admin')
+      }
     }).catch(function (error) {
-      // TODO
-      console.error(error.message)
+      displayError(error.response.data.error)
     })
   }
 })()
