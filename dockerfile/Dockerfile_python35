@@ -4,8 +4,8 @@ MAINTAINER sezzhltd@gmail.com
 EXPOSE 5000
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-COPY ./pythonapp/requirements.txt /usr/src/app
+COPY ./auth-service/requirements.txt /usr/src/app
 RUN pip install -r /usr/src/app/requirements.txt
-COPY . /usr/src/app
+COPY ./auth-service /usr/src/app
 
-CMD ["python", "/usr/src/app/authservice/runserver.py"]
+CMD ["python", "/usr/src/app/runserver.py"]
