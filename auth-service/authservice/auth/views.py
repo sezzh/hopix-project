@@ -54,4 +54,4 @@ class Tokens(Resource):
             resp.status_code = 403
             return resp
 
-api.add_resource(Tokens, '.json')
+api.add_resource(Tokens, '')

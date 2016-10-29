@@ -13,8 +13,8 @@ services:
       - "3000:3000"
       - "5858:5858"
     env_file:
-      - ./env/webplatform.env
-      - ./env/webplatform_secrets.env
+      - ./env/web-platform/webplatform.env
+      - ./env/web-platform/webplatform_secrets.env
   authservice:
     build:
       context: .
@@ -23,9 +23,9 @@ services:
       - data
       - authservice_db
     env_file:
-      - ./env/authservice.env
-      - ./env/authservice_db_secrets.env
-      - ./env/authservice_secrets.env
+      - ./env/auth-service/authservice.env
+      - ./env/auth-service/authservice_db_secrets.env
+      - ./env/auth-service/authservice_secrets.env
     environment:
       - FLASK_DEBUG=1
     volumes:
@@ -35,8 +35,8 @@ services:
   authservice_db:
     image: postgres:9.6.0
     env_file:
-      - ./env/authservice_db.env
-      - ./env/authservice_pg_secrets.env
+      - ./env/auth-service/authservice_db.env
+      - ./env/auth-service/authservice_pg_secrets.env
     volumes_from:
       - data
     depends_on:
