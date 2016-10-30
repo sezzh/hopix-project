@@ -5,8 +5,8 @@ services:
       context: .
       dockerfile: ./dockerfile/Dockerfile_nodejs
     depends_on:
-      - data
       - authservice
+      - core
     volumes:
       - ./web-platform:/usr/src/app
     ports:
@@ -20,7 +20,6 @@ services:
       context: .
       dockerfile: ./dockerfile/Dockerfile_python35
     depends_on:
-      - data
       - authservice_db
     env_file:
       - ./env/auth-service/authservice.env
@@ -38,23 +37,66 @@ services:
       - ./env/auth-service/authservice_db.env
       - ./env/auth-service/authservice_pg_secrets.env
     volumes_from:
-      - data
+      - data_auth
     depends_on:
-      - data
+      - data_auth
     volumes:
       - ./auth-service/sql:/usr/sql
+  data_auth:
+    image: busybox
+    volumes:
+      - data_auth:/var/lib/postgresql/data
+  core:
+    build:
+      context: .
+      dockerfile: ./dockerfile/Dockerfile_nodejs
+    depends_on:
+      - core_db
+      - core_doc
+      - authservice
+    env_file:
+      - ./env/core/core.env
+      - ./env/core/core_secrets.env
+    volumes:
+      - ./core:/usr/src/app
+    ports:
+      - "3001:3000"
+      - "5859:5858"
+  core_doc:
+    image: mongo:3.2.10
+    depends_on:
+      - data_core_doc
+    volumes_from:
+      - data_core_doc
+  core_db:
+    image: postgres:9.6.0
+    depends_on:
+      - data_core_db
+    volumes_from:
+      - data_core_db
+  data_core_db:
+    image: busybox
+    volumes:
+      - data_core_sql:/var/lib/postgresql/data
+  data_core_doc:
+    image: busybox
+    volumes:
+      - data_core_mongo:/data/db
+      - data_core_mongo_config:/data/configdb
   gateway:
     image: nginx:stable
     volumes:
       - ./gateway:/etc/nginx/conf.d
     ports:
-      - "8080:80"
+      - "80:80"
     depends_on:
       - webplatform
-  data:
-    image: busybox
-    volumes:
-      - psdata:/var/lib/postgresql/data
 volumes:
-  psdata:
+  data_auth:
+    external: true
+  data_core_mongo:
+    external: true
+  data_core_mongo_config:
+    external: true
+  data_core_sql:
     external: true
