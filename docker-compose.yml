@@ -57,6 +57,7 @@ services:
     env_file:
       - ./env/core/core.env
       - ./env/core/core_secrets.env
+      - ./env/core/core_db_secrets.env
     volumes:
       - ./core:/usr/src/app
     ports:
@@ -70,10 +71,15 @@ services:
       - data_core_doc
   core_db:
     image: postgres:9.6.0
+    env_file:
+      - ./env/core/core_db.env
+      - ./env/core/core_pg_secrets.env
     depends_on:
       - data_core_db
     volumes_from:
       - data_core_db
+    volumes:
+      - ./core/sql:/usr/sql
   data_core_db:
     image: busybox
     volumes:

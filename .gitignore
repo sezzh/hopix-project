@@ -6,6 +6,8 @@ env/web-platform/webplatform_secrets.env
 env/auth-service/authservice_pg_secrets.env
 env/auth-service/authservice_db_secrets.env
 env/core/core_secrets.env
+env/core/core_db_secrets.env
+env/core/core_pg_secrets.env
 npm-debug.log
 web-platform/static/css/styles.css
 web-platform/public/*
