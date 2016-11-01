@@ -5,12 +5,13 @@ from authservice.lib import jwt
 from authservice import encrypt
 
 
-def auth_superuser(p_username, p_password):
+def auth_superuser(p_username, p_password, p_exp):
     try:
+        expiration = p_exp if p_exp is not None else 10080
         user = Superusers.query.filter_by(username=p_username).first()
         if user is None:
             resp = jsonify(
-                    {"mensaje": "¡La usuario y/o la" +
+                    {"mensaje": "¡El usuario y/o la" +
                         " contraseña son incorectos!"}
                     )
             resp.status_code = 404
@@ -21,7 +22,7 @@ def auth_superuser(p_username, p_password):
             if validate and (username == p_username):
                 expire = (
                     datetime.utcnow() +
-                    timedelta(minutes=1)
+                    timedelta(minutes=expiration)
                     )
                 token = {
                     "type": "superuser",
@@ -33,12 +34,12 @@ def auth_superuser(p_username, p_password):
                 }
                 results = jwt.encode_token(token)
                 resp = jsonify(
-                    {"token": results, "mensaje": "Este token expira en 1 min"}
+                    {"token": results}
                     )
                 resp.status_code = 201
             else:
                 resp = jsonify(
-                    {"mensaje": "¡La usuario y/o la " +
+                    {"mensaje": "¡El usuario y/o la " +
                         "contraseña son incorectos!"}
                     )
                 resp.status_code = 404

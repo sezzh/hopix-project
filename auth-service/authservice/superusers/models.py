@@ -1,5 +1,5 @@
-from marshmallow_jsonapi import Schema, fields
-from marshmallow import validate
+# from marshmallow_jsonapi import Schema, fields
+from marshmallow import Schema, fields, validate
 from authservice import db
 
 
@@ -47,18 +47,6 @@ class SuperusersSchema(Schema):
     username = fields.String(validate=not_blank)
     email = fields.String(validate=not_blank)
     is_active = fields.Boolean()
-    # password = fields.String(validate=not_blank)
-
-    # self links
-    def get_top_level_links(self, data, many):
-        if many:
-            self_url = 'http://localhost:5000/api/v1/superusers'
-        else:
-            self_url = (
-                "http://localhost:5000/api/v1/superusers/{}".format(data['id'])
-                )
-        return {'self': self_url}
 
     class Meta:
         type_ = 'superusers'
-        # strict = True

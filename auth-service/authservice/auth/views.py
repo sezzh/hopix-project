@@ -9,12 +9,18 @@ tokens = Blueprint('tokens', __name__)
 api = Api(tokens)
 
 parser = reqparse.RequestParser()
-parser.add_argument('type', required=True,
+
+parser.add_argument('type', required=False, type=str,
                     help="el atributo [type] no puede estar vacío!")
-parser.add_argument('sub', required=True,
+
+parser.add_argument('sub', required=True, type=str,
                     help="el atributo [sub] no puede estar vacío!")
-parser.add_argument('password', required=True,
-                    help="El atributo [password] no puede estar vacío!")
+
+parser.add_argument('password', required=True, type=str,
+                    help="El atributo [password] no puede estar vacío!"
+                    )
+
+parser.add_argument('exp', required=False, type=int)
 
 
 class Tokens(Resource):
@@ -24,14 +30,11 @@ class Tokens(Resource):
             resp.status_code = 405
             return resp
         else:
-            p_raw_dict = request.get_json(force=True)
             args = parser.parse_args()
+            p_type = args.type if args.type is not None else "user"
             try:
-                p_type = p_raw_dict['type']
-                p_username = p_raw_dict['sub']
-                p_password = p_raw_dict['password']
                 if p_type == "superuser":
-                    return auth_superuser(p_username, p_password)
+                    return auth_superuser(args.sub, args.password, args.exp)
                 else:
                     return jsonify({"aviso": "token no soportado aún :("})
 
