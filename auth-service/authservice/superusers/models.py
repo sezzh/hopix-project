@@ -1,6 +1,5 @@
 from marshmallow_jsonapi import Schema, fields
 from marshmallow import validate
-from sqlalchemy.exc import SQLAlchemyError
 from authservice import db
 
 
@@ -20,24 +19,24 @@ class CRUD():
 
 class Superusers(db.Model, CRUD):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(250), unique=True, nullable=False)
-    name = db.Column(db.String(250), nullable=False)
+    username = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
     creation_time = db.Column(
         db.TIMESTAMP,
         server_default=db.func.current_timestamp(),
-        nullable=False
+        nullable='False'
     )
     is_active = db.Column(
         db.Boolean,
-        server_default="false",
+        server_default='False',
         nullable=False
     )
     password = db.Column(db.Text(), nullable=False)
 
-    def __init__(self,  email,  name, is_active, password):
+    def __init__(self,  username, email, is_active, password):
 
+        self.username = username
         self.email = email
-        self.name = name
         self.is_active = is_active
         self.password = password
 
@@ -45,18 +44,21 @@ class Superusers(db.Model, CRUD):
 class SuperusersSchema(Schema):
     not_blank = validate.Length(min=1, error='Este campo no debe estar vacío')
     id = fields.Integer(dump_only=True)
-    email = fields.Email(validate=not_blank)
-    name = fields.String(validate=not_blank)
+    username = fields.String(validate=not_blank)
+    email = fields.String(validate=not_blank)
     is_active = fields.Boolean()
+    # password = fields.String(validate=not_blank)
 
     # self links
-
     def get_top_level_links(self, data, many):
         if many:
-            self_link = "/superusers/"
+            self_url = 'http://localhost:5000/api/v1/superusers'
         else:
-            self_link = "/superusers/{}".format(data['id'])
-        return {'self': self_link}
+            self_url = (
+                "http://localhost:5000/api/v1/superusers/{}".format(data['id'])
+                )
+        return {'self': self_url}
 
     class Meta:
         type_ = 'superusers'
+        # strict = True

@@ -12,55 +12,19 @@ schema = SuperusersSchema()
 api = Api(superusers)
 
 
-# http://jsonapi.org/format
 # Recurso de los Superusers
+
 
 class SuperusersList(Resource):
     def get(self):
-        superusers_query = Superusers.query.all()
-        results = schema.dump(superusers_query, many=True).data
-        return results
-
-    def post(self):
-        raw_dict = request.get_json(force=True)
         try:
-                schema.validate(raw_dict)
-                superuser_dict = raw_dict['data']['attributes']
-                password = (
-                    encrypt.encrypt_sha512(
-                        superuser_dict['password'], 10000, 10
-                    )
-                )
-                superuser = Superusers(
-                    superuser_dict['email'],
-                    superuser_dict['name'],
-                    superuser_dict['is_active'],
-                    password
-                )
-                # import pdb; pdb.set_trace()
-                # superuser.add(superuser)
-                # query = Superusers.query.get(superuser.id)
-                # results = schema.dump(query).data
-                # return results, 201
-                resp = (
-                    jsonify(
-                        {"error": "The method is not allowed"
-                            " for the requested URL."}
-                    )
-                )
-                resp.status_code = 403
-                return resp
-
-        except ValidationError as err:
-                resp = jsonify({"error": err.messages})
-                resp.status_code = 403
-                return resp
-
-        except SQLAlchemyError as e:
-                db.session.rollback()
-                resp = jsonify({"error": str(e)})
-                resp.status_code = 403
-                return resp
+            superusers_query = Superusers.query.all()
+            results = schema.dump(superusers_query, many=True).data
+            return results
+        except Exception as e:
+            resp = jsonify({"mensaje": " ¡ No tenemos conexión a la BD :( !"})
+            resp.status_code = 500
+            return resp
 
 
 class SuperusersUpdate(Resource):
@@ -114,5 +78,5 @@ class SuperusersUpdate(Resource):
                 return resp
 
 
-api.add_resource(SuperusersList, '.json')
-api.add_resource(SuperusersUpdate, '/<int:id>.json')
+api.add_resource(SuperusersList, '')
+api.add_resource(SuperusersUpdate, '/<int:id>')
