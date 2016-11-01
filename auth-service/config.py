@@ -9,7 +9,6 @@ pg_db_hostname = os.environ['AUTHSERVICE_DB_HOST_SECRET']
 
 
 # Variables Flask
-DEBUG = True
 PORT = 5000
 HOST = "0.0.0.0"
 SECRET_KEY = os.environ['AUTHSERVICE_FLASK_SECRET']
