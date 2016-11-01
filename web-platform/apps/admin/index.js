@@ -6,7 +6,7 @@ var router = express.Router()
 
 router.get('/', authMiddlewares.ensureAuthAdmin, (req, res) => {
   res.render(
-    'admin/hello',
+    'admin/admin',
     {
       title: 'titulo',
       contenido: 'holii',

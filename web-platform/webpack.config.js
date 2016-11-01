@@ -7,10 +7,11 @@ var watcherOpts = {
 }
 
 var webpackOpts = {
-  context: path.join(__dirname, 'lib', 'src'),
+  context: path.resolve(__dirname, 'lib/src'),
   // These are the apps from the template system.
   entry: {
-    login: './login-app/index'
+    login: './login-app/index',
+    admin: './admin-app/index'
   },
   output: {
     path: path.join(__dirname, 'static', 'bin'),
@@ -25,15 +26,31 @@ var webpackOpts = {
         comments: false
       }
     })
-  ]
+  ],
+  resolve: {
+    extensions: ['', '.js', '.jsx', '.json']
+  },
+  module: {
+    loaders: [
+      {
+        test: [/\.js$/, /\.jsx$/],
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react']
+        }
+      }
+    ]
+  }
 }
 
 var compiler = webpack(webpackOpts)
 
 compiler.watch(watcherOpts, (err, stats) => {
   if (err) {
-    console.error(err.message)
+    console.log(err.message)
   } else {
+    console.log(stats.toString({ minimal: true, colors: true }))
     console.log('build done.')
   }
 })

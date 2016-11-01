@@ -7,5 +7,7 @@ block header
   include ../header.pug
 
 block content
-  section
-    h1= contenido
+  section(data-react='dom')
+
+block scripts
+  script(src='static/bin/admin.bundle.js')

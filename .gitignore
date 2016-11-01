@@ -1,6 +1,7 @@
 *.pyc
 __pycache__
 node_modules
+auth-service/migrations
 env/auth-service/authservice_secrets.env
 env/web-platform/webplatform_secrets.env
 env/auth-service/authservice_pg_secrets.env

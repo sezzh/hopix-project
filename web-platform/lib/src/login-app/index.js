@@ -1,8 +1,9 @@
+import axios from 'axios'
+
 (function () {
-  const axios = require('axios')
   var form = document.querySelector('[data-login="form"]')
 
-  form.addEventListener('submit', function (event) {
+  form.addEventListener('submit', (event) => {
     event.preventDefault()
     let data = {
       username: '',
@@ -37,7 +38,7 @@
     let helperClass = 'u--margin-bottom'
     let helperOn = false
     let messageContainer = form.querySelector('[data-login="message"]')
-    messageContainer.classList.forEach(function (cssClass) {
+    messageContainer.classList.forEach((cssClass) => {
       (cssClass === helperClass) ? helperOn = true : helperOn = false
     })
     if (!helperOn) {
@@ -47,12 +48,12 @@
   }
 
   function sendRequest (data) {
-    axios.post('/admin/login', data).then(function (response) {
+    axios.post('/admin/login', data).then((response) => {
       // TODO
       if (response.data === 'done') {
         window.location.assign('/admin')
       }
-    }).catch(function (error) {
+    }).catch((error) => {
       displayError(error.response.data.error)
     })
   }

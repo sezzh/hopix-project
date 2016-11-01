@@ -8,7 +8,7 @@ const csrf = require('csurf')
 const flash = require('req-flash')
 const passport = require('passport')
 const localStrategy = require('authentication/strategies').localStrategy
-const routerAdmin = require('apps/admin/controllers')
+const routerAdmin = require('apps/admin')
 const serializers = require('authentication/serializers')
 const port = process.env.WEBPLATFORM_PORT || 3000
 
