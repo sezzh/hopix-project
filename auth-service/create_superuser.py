@@ -1,4 +1,5 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 from authservice.superusers.models import Superusers
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, or_
@@ -17,41 +18,40 @@ session = Session()
 
 def create_superuser():
     print("Nuevo administrador")
-    username = input("Ingrese su Username: ")
-    email = input("Ingrese su email: ")
+    username = input("Ingrese su Usuario: ")
+    email = input("Ingrese su Correo: ")
     while not validate_email(email):
-        print("¡ email incorrecto, veriquelo por favor !")
+        print("¡Correo incorrecto, veriquelo por favor!")
         email = input("email: ")
 
-    password = getpass.getpass("Ingrese su password: ")
+    password = getpass.getpass("Ingrese su Contraseña: ")
     while not validate_password(password):
-        print("¡ Password incorrecto, veriquelo por favor !")
-        print("Debe tener 1 letra minuscula y 1 mayuscula")
+        print("¡Contraseña incorrecto, veriquelo por favor!")
+        print("Debe tener 1 letra minúscula y 1 mayúscula")
         print("1 numero y 1 caracter especial !@#$&* ")
         print("Debe ser contener de 8 a 15 caracteres")
-        password = getpass.getpass("Ingrese su password: ")
+        password = getpass.getpass("Ingrese su Contraseña: ")
 
     password = encrypt_sha512(password, 10000, 10)
     try:
         q_username = (
             session.query(Superusers).filter_by(username=username).count()
-            )
+        )
         q_email = session.query(Superusers).filter_by(email=email).count()
         if q_username > 0 or q_email > 0:
-            print("¡ Username o Email, ya existen :( ! Intentelo nuevamente")
+            print("¡Usuario o Correo, ya existen :( ! Intentelo nuevamente")
         else:
             superuser = Superusers(
                                     username=username,
                                     email=email,
-                                    is_active='True',
                                     password=password
-                                    )
+            )
             try:
                 session.add(superuser)
                 session.commit()
-                print("¡ Administrador creado Correctamente :) ")
-                print('Username: {}'.format(username))
-                print('Email: {}'.format(email))
+                print("¡Administrador creado Correctamente :)!")
+                print('Usuario: {}'.format(username))
+                print('Correo: {}'.format(email))
             except Exception as e:
                 print('¡ Error interno de validación :) ! ')
     except Exception as e:

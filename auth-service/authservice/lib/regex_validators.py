@@ -1,31 +1,35 @@
+# -*- encoding: utf-8 -*-
 import re
 
 
+"""
+[\w.%+-]        usuario: Cualquier caracter alfanumerico mas los signos (.%+-)
++@              seguido de @
+[\w.-]          dominio: Cualquier caracter alfanumerico mas los signos (.-)
++\.             seguido de .
+[a-zA-Z]{2,6}   dominio de alto nivel: 2 a 6 letras en minúsculas o mayúsculas.
+"""
+
+
 def validate_email(email):
-    """ Criterios de un correo
-        letras || números || guión bajo || guión || punto
-        simbolo @ arroba
-        letras || números || guión bajo || guión || punto
-        longitud minima >= 4
-        longitu máxima <= 15
-    """
-    pattern = '^[(a-z0-9\_\-\.)]+@[(a-z0-9\_\-\.).{1,15}$]'
+    pattern = '[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,6}'
     if re.match(pattern, email.lower()):
         return True
     else:
         return False
 
 
+"""
+(?=.*[A-Z])     Algúna letra en mayúscula
+(?=.*[!@#$&*])  Algún caracter especial de la lista
+(?=.*[0-9])     Algún número
+(?=.*[a-z])     Algúna letra en minúscula
+{8,15}          dominio de 8 a 15 letras
+"""
+
+
 def validate_password(password):
-    """ Criterios de una contraseña
-        Letra mayúscula >= 1.
-        Caracter especial >= 1
-        Número >= 1
-        Letra minúscula >= 1
-        Longitud mínima >= 8
-        Longitud máxima <= 15
-    """
-    pattern = '^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,15}$'
+    pattern = '(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,15}'
     if re.match(pattern, password):
         return True
     else:
