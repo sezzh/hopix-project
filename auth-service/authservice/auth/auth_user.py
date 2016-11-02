@@ -16,7 +16,7 @@ def auth_superuser(p_username, p_password, p_exp):
             resp = jsonify(
                 {"mensaje": "¡El usuario y/o la contraseña son incorectos!"}
             )
-            resp.status_code = 404
+            resp.status_code = 200
         else:
             username = user.username
             hash_encrypt = user.password
@@ -41,7 +41,7 @@ def auth_superuser(p_username, p_password, p_exp):
                     {"mensaje": "¡El usuario y/o la " +
                         "contraseña son incorectos!"}
                 )
-                resp.status_code = 404
+                resp.status_code = 200
             return resp
         return resp
 
@@ -60,7 +60,7 @@ def auth_user(p_username, p_password, p_exp):
             resp = jsonify(
                 {"mensaje": "¡El usuario y/o la contraseña son incorectos!"}
             )
-            resp.status_code = 404
+            resp.status_code = 200
         else:
             email = user.email
             hash_encrypt = user.password
@@ -85,7 +85,7 @@ def auth_user(p_username, p_password, p_exp):
                     {"mensaje": "¡El usuario y/o la " +
                         "contraseña son incorectos!"}
                 )
-                resp.status_code = 404
+                resp.status_code = 200
             return resp
         return resp
 

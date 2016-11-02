@@ -29,13 +29,13 @@ class UsersList(Resource):
     def post(self):
         if request.content_type != "application/json":
             resp = jsonify({"error": "¡Petición solicitada no soportada :(!"})
-            resp.status_code = 405
+            resp.status_code = 422
             return resp
         else:
             json_data = request.get_json()
             if not json_data:
                 resp = jsonify({'mensaje': 'No se han proporcionado datos'})
-                resp.status_code = 400
+                resp.status_code = 422
                 return resp
             # validate and deserialize input
             data, errors = schema.load(json_data)

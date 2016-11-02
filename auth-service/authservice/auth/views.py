@@ -30,7 +30,7 @@ class Tokens(Resource):
     def post(self):
         if request.content_type != "application/json":
             resp = jsonify({"error": "¡ Petición solicitada no soportada! :("})
-            resp.status_code = 405
+            resp.status_code = 422
             return resp
         else:
             args = parser.parse_args()
@@ -41,11 +41,13 @@ class Tokens(Resource):
                 elif p_type == "user":
                     return auth_user(args.sub, args.password, args.exp)
                 else:
-                    return jsonify({"aviso": "token no soportado aún :("})
+                    resp = jsonify({"aviso": "token no soportado aún :("})
+                    resp.status_code = 422
+                    return resp
 
             except ValidationError as err:
                 resp = jsonify({"error": err.messages})
-                resp.status_code = 400
+                resp.status_code = 422
                 return resp
 
 

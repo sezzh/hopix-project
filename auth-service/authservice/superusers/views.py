@@ -16,7 +16,7 @@ class SuperusersList(Resource):
             superusers_query = Superusers.query.all()
             # Serialize the queryset
             resp = schema.dump(superusers_query, many=True).data
-            return resp
+            return resp, 200
         except Exception as e:
             resp = jsonify({"mensaje": " ¡ No tenemos conexión a la BD :( !"})
             resp.status_code = 500
