@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 import os
 
 # Configuración de la base de datos

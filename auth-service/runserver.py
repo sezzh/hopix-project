@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+# -*- encoding: utf-8 -*-
 from authservice import create_app
 
 app = create_app('config')

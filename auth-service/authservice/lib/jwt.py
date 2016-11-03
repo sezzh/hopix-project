@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from jose import jwt
 from authservice.config_jwt import jwt_secret
 

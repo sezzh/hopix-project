@@ -1,13 +1,10 @@
-# from marshmallow_jsonapi import Schema, fields
-from marshmallow import Schema, fields, validate
+# -*- encoding: utf-8 -*-
+from marshmallow import Schema, fields, ValidationError
+from collections import OrderedDict
 from authservice import db
 
 
 class CRUD():
-
-    def add(self, resource):
-        db.session.add(resource)
-        return db.session.commit()
 
     def update(self):
         return db.session.commit()
@@ -28,25 +25,38 @@ class Superusers(db.Model, CRUD):
     )
     is_active = db.Column(
         db.Boolean,
-        server_default='False',
+        server_default='True',
         nullable=False
     )
     password = db.Column(db.Text(), nullable=False)
 
-    def __init__(self,  username, email, is_active, password):
+    def __init__(self,  username, email, password):
 
         self.username = username
         self.email = email
-        self.is_active = is_active
         self.password = password
 
 
+# Custom validador
+
+def must_not_be_blank(data):
+    if not data:
+        raise ValidationError('Dato no proporcionado.')
+
+
+# Schema Superusers
+
 class SuperusersSchema(Schema):
-    not_blank = validate.Length(min=1, error='Este campo no debe estar vacío')
+    # atributo id autoincrementable y de solo lectura dump_only=True
     id = fields.Integer(dump_only=True)
-    username = fields.String(validate=not_blank)
-    email = fields.String(validate=not_blank)
-    is_active = fields.Boolean()
+    username = fields.String(
+        validate=must_not_be_blank,
+        load_from='sub', dump_to='sub'
+    )
+    email = fields.Email(validate=must_not_be_blank)
+    is_active = fields.Boolean(dump_only=True)
 
     class Meta:
         type_ = 'superusers'
+        fields = ("id", "username", "email", "is_active")
+        ordered = True
