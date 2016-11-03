@@ -1,0 +1,26 @@
+.nav-menu
+  grid()
+  position fixed
+  top 0
+  background-color dark-accent-color
+  height 100%
+  width 80%
+  z-index 5
+  box-shadow 0 0 rem-calc(44) dark-primary-shadow-color
+  &__figure
+    margin rem-calc(10) rem-calc(10)
+    width rem-calc(44)
+    text-align center
+    &__icon
+      font-size rem-calc(44)
+  &__user-data
+    margin rem-calc(10) 0
+    width calc(100% - 64px)
+    &__username
+      margin 0
+      font-size rem-calc(20)
+    &__usertype
+      margin 0
+      font-size rem-calc(16)
+  &--hide
+    left -100%

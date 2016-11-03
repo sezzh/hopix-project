@@ -1,0 +1,61 @@
+.header-admin
+  width 100%
+  grid()
+  background-color dark-accent-color
+  overflow hidden
+  align-items center
+  box-sizing content-box
+  border-bottom rem-calc(4) solid primary-color
+  box-shadow 0 0 rem-calc(20) rgba(0,0,0,.4)
+  height rem-calc(60)
+  &--fixed
+    top 0
+    right 0
+    left 0
+    z-index 4
+    position fixed
+  &--justify-left
+      grid('row', 'center', justify:'start')
+  &--big
+    height rem-calc(80)
+  &__user-figure
+    position relative
+    width rem-calc(50)
+    margin rem-calc(5) rem-calc(8)
+    height rem-calc(50)
+    &__img
+      position absolute
+      top 0
+      left 0
+      right 0
+      bottom 0
+      margin auto
+      max-width 80%
+      max-height 80%
+  &__figure
+    position relative
+    width rem-calc(150)
+    margin 0
+    height rem-calc(55)
+    &__img
+      position absolute
+      top 0
+      left 0
+      right 0
+      bottom 0
+      margin auto
+      max-width 80%
+      max-height 80%
+  &__user-data
+    height rem-calc(60)
+    grid(direction: 'column', justify: 'center')
+    width rem-calc(155)
+  &__username
+    margin 0
+    font-size rem-calc(20)
+  &__usertype
+    margin 0
+    font-size rem-calc(16)
+  &__options
+    grid('row', justify: 'end')
+    width calc(100% - 60px)

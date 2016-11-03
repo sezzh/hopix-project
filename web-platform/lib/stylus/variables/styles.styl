@@ -14,6 +14,11 @@ dark-base-gray = rgba(220, 220, 220, 1)
 regular-base-gray = rgba(232, 232, 232, 1)
 light-base-gray = rgba(240, 240, 240, 1)
 
+gray-base-darker = darker-base-gray
+gray-base-dark = dark-base-gray
+gray-base-regular = regular-base-gray
+gray-base-light = light-base-gray
+
 // ui color stack
 dark-primary-color = darken(yellow-base-color, 20)
 primary-color = yellow-base-color
@@ -24,10 +29,14 @@ dark-accent-color = black-base-color
 
 // Text colors.
 light-text-icons-color = #FEFEFE
-dark-text-icons-color = #040404
+dark-text-icons-color = rgba(4, 4, 4, 1)
 light-primary-text-color = #FEFEFE
 light-secondary-text-color = #757575
 dark-primary-text-color = #212121
+
+// Shadow colors.
+dark-primary-shadow-color = rgba(4, 4, 4, .6)
+dark-primary-shadow-btn-color = rgba(44, 44, 44, .2)
 
 // Neutral colors.
 divider-color = #BDBDBD
@@ -36,24 +45,6 @@ error-color = red-base-color
 
 //font settings
 
-@font-face
-  font-family 'andika_new_basicregular'
-  font-weight normal
-  font-style normal
-  src url('/static/fonts/andika/andikanewbasic-r-webfont.woff'),
-  url('/static/fonts/andika/andikanewbasic-r-webfont.woff2')
-
-@font-face
-  font-family 'graviola'
-  font-weight normal
-  font-style normal
-  src url(/static/fonts/graviola/graviola-regular-webfont.eot)
-  src url(/static/fonts/graviola/graviola-regular-webfont.eot?#iefix) format('embedded-opentype'),
-  url('/static/fonts/graviola/graviola-regular-webfont.woff2') format('woff2'),
-  url('/static/fonts/graviola/graviola-regular-webfont.woff') format('woff'),
-  url('/static/fonts/graviola/graviola-regular-webfont.ttf') format('truetype'),
-  url('/static/fonts/graviola/graviola-regular-webfont.svg#graviolaregular') format('svg')
-
 primary-font-normal = 'graviola'
 default-font-size = rem-calc(16)
 //defaults
@@ -61,3 +52,4 @@ default-font-size = rem-calc(16)
 .wrapper
   background-color dark-accent-color
   font-family primary-font-normal
+  color light-primary-text-color

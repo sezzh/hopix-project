@@ -1,0 +1,29 @@
+.area-detail
+  overflow hidden
+  width 100%
+  position fixed
+  height calc(100vh - 64px)
+  bottom 0
+  background-color gray-base-regular
+  box-shadow 0 0 rem-calc(20) dark-primary-shadow-color
+  z-index 3
+  &--hide
+    bottom -100%
+  &__figure
+    margin rem-calc(20) auto
+    background-color gray-base-darker
+    width rem-calc(80)
+    height rem-calc(80)
+    border-radius 50%
+    position relative
+    &__img
+      position absolute
+      top 0
+      left 0
+      right 0
+      bottom 0
+      max-width 100%
+      max-height 100%
+  &__name
+    display block
+    margin 0 auto rem-calc(20) auto

@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Hello from './components/hello.jsx'
+import App from './components/app.jsx'
 
 (function () {
-  ReactDOM.render(<Hello />, document.querySelector('[data-react="dom"]'))
+  ReactDOM.render(<App />, document.querySelector('[data-react="dom"]'))
 })()

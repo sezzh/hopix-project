@@ -5,16 +5,7 @@ const authMiddlewares = require('authentication/middlewares')
 var router = express.Router()
 
 router.get('/', authMiddlewares.ensureAuthAdmin, (req, res) => {
-  res.render(
-    'admin/admin',
-    {
-      title: 'titulo',
-      contenido: 'holii',
-      img: {
-        bebish: 'enla ventana'
-      }
-    }
-  )
+  res.render('admin/admin')
 })
 
 router.get('/login', (req, res) => {
