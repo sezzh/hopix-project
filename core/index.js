@@ -8,12 +8,16 @@ app.set('port', port)
 const server = http.createServer(app)
 
 // Sincronizacion de la base BD con express.
-db.sequelize.sync().then(() => {
+db.sequelize.authenticate().then(() => {
+  return db.sequelize.sync()
+}).then(() => {
   server.listen(port, () => {
     console.log(`Express working on ${port}`)
   })
   server.on('error', onError)
   server.on('listening', onListening)
+}).catch(() => {
+  console.log('No tenemos conexión a la BD :(')
 })
 
 // Normalizacion del puerto para evitar errores con la variable de entorno.
