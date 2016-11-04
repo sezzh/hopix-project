@@ -5,7 +5,6 @@ from authservice import db
 
 
 class CRUD():
-
     def update(self):
         return db.session.commit()
 
@@ -50,13 +49,23 @@ class SuperusersSchema(Schema):
     # atributo id autoincrementable y de solo lectura dump_only=True
     id = fields.Integer(dump_only=True)
     username = fields.String(
+        required=True,
         validate=must_not_be_blank,
-        load_from='sub', dump_to='sub'
+        load_from='sub',
+        dump_to='sub'
     )
-    email = fields.Email(validate=must_not_be_blank)
+    email = fields.Email(
+        required=True,
+        validate=must_not_be_blank,
+    )
+    password = fields.String(
+        required=True,
+        load_only=True,
+        validate=must_not_be_blank
+    )
     is_active = fields.Boolean(dump_only=True)
 
     class Meta:
         type_ = 'superusers'
-        fields = ("id", "username", "email", "is_active")
+        fields = ("id", "username", "email", "is_active", "password")
         ordered = True

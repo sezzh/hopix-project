@@ -52,11 +52,15 @@ class UsersSchema(Schema):
     # atributo id autoincrementable y de solo lectura dump_only=True
     id = fields.Integer(dump_only=True)
     email = fields.Email(
-        required=True, validate=must_not_be_blank, load_from='sub',
+        required=True,
+        validate=must_not_be_blank,
+        load_from='sub',
         dump_to='sub'
     )
     password = fields.String(
-        load_only=True, required=True, validate=must_not_be_blank
+        required=True,
+        load_only=True,
+        validate=must_not_be_blank
     )
     is_active = fields.Boolean(dump_only=True)
 

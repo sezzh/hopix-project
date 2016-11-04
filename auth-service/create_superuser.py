@@ -28,7 +28,7 @@ def create_superuser():
     while not validate_password(password):
         print("¡Contraseña incorrecto, veriquelo por favor!")
         print("Debe tener 1 letra minúscula y 1 mayúscula")
-        print("1 numero y 1 caracter especial !@#$&* ")
+        print("1 numero y 1 caracter especial [!#$%&/()?¿¡@;*] ")
         print("Debe ser contener de 8 a 15 caracteres")
         password = getpass.getpass("Ingrese su Contraseña: ")
 

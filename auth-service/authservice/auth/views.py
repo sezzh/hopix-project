@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, make_response
 from flask_restful import Resource, Api, reqparse
 from authservice.auth.auth_user import auth_superuser, auth_user
 from marshmallow import ValidationError
@@ -29,26 +29,26 @@ parser.add_argument('exp', required=False, type=int)
 class Tokens(Resource):
     def post(self):
         if request.content_type != "application/json":
-            resp = jsonify({"error": "¡ Petición solicitada no soportada! :("})
-            resp.status_code = 422
+            res = make_response()
+            res.status_code = 422
             return resp
         else:
             args = parser.parse_args()
-            p_type = args.type if args.type is not None else "user"
+            req_type = args.type if args.type is not None else "user"
             try:
-                if p_type == "superuser":
+                if req_type == "superuser":
                     return auth_superuser(args.sub, args.password, args.exp)
-                elif p_type == "user":
+                elif req_type == "user":
                     return auth_user(args.sub, args.password, args.exp)
                 else:
-                    resp = jsonify({"aviso": "token no soportado aún :("})
-                    resp.status_code = 422
-                    return resp
+                    res = make_response()
+                    res.status_code = 422
+                    return res
 
             except ValidationError as err:
-                resp = jsonify({"error": err.messages})
-                resp.status_code = 422
-                return resp
+                res = jsonify({"error": err.messages})
+                res.status_code = 422
+                return res
 
 
 api.add_resource(Tokens, '')
