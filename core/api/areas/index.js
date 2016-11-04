@@ -10,16 +10,20 @@ areas.get('/areas', (req, res) => {
       data.push(area.dataValues)
     })
     res.status(200).json(data)
-  }).catch(() => {
-    res.status(500).end()
+  }).catch((err) => {
+    if (err) {
+      res.status(500).end()
+    }
   })
 })
 
 areas.get('/areas/:areaId', (req, res) => {
   db.Area.findOne({ where: { id: req.params.areaId } }).then((area) => {
-    area != null ? res.status(200).json(area) : res.status(404).end()
-  }).catch(() => {
-    res.status(500).end()
+    (area !== null) ? res.status(200).json(area) : res.status(404).end()
+  }).catch((err) => {
+    if (err) {
+      res.status(500).end()
+    }
   })
 })
 
@@ -34,10 +38,14 @@ areas.post('/areas', (req, res) => {
         res.status(409).end()
       }
     }).catch((errors) => {
-      res.status(422).end()
+      if (errors) {
+        res.status(422).end()
+      }
     })
-  }).catch(() => {
-    res.status(500).end()
+  }).catch((err) => {
+    if (err) {
+      res.status(500).end()
+    }
   })
 })
 
@@ -47,22 +55,28 @@ areas.put('/areas/:areaId', (req, res) => {
       { name: req.body.name },
       { where: { id: req.params.areaId }, returning: true }
     ).then((result) => {
-      result[0] === 0 ? res.status(404).end() : res.status(200).json(result[1])
+      (result[0] === 0) ? res.status(404).end() : res.status(200).json(result[1])
     }).catch((errors) => {
-      res.status(422).end()
+      if (errors) {
+        res.status(422).end()
+      }
     })
-  }).catch(() => {
-    res.status(500).end()
+  }).catch((err) => {
+    if (err) {
+      res.status(500).end()
+    }
   })
 })
 
 areas.delete('/areas/:areaId', (req, res) => {
   db.sequelize.authenticate().then(() => {
     db.Area.destroy({ where: { id: req.params.areaId } }).then((rows) => {
-      rows === 0 ? res.status(404).end() : res.status(204).end()
+      (rows === 0) ? res.status(404).end() : res.status(204).end()
     })
-  }).catch(() => {
-    res.status(500).end()
+  }).catch((err) => {
+    if (err) {
+      res.status(500).end()
+    }
   })
 })
 

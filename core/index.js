@@ -16,8 +16,10 @@ db.sequelize.authenticate().then(() => {
   })
   server.on('error', onError)
   server.on('listening', onListening)
-}).catch(() => {
-  console.log('No tenemos conexión a la BD :(')
+}).catch((err) => {
+  if (err) {
+    console.log('No tenemos conexión a la BD :(')
+  }
 })
 
 // Normalizacion del puerto para evitar errores con la variable de entorno.
