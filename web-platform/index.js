@@ -1,56 +1,51 @@
 const http = require('http')
-const path = require('path')
-const express = require('express')
-const expressSession = require('express-session')
-const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser')
-const csrf = require('csurf')
-const flash = require('req-flash')
-const passport = require('passport')
-const localStrategy = require('authentication/strategies').localStrategy
-const routerAdmin = require('apps/admin')
-const serializers = require('authentication/serializers')
-const port = process.env.WEBPLATFORM_PORT || 3000
+const port = normalizePort(process.env.WEBPLATFORM_PORT || 3000)
+const app = require('app')
 
 // Web server initialize.
-const app = express()
+app.set('port', port)
 const server = http.createServer(app)
-
-// Express Sessions configuration.
-var esOpts = {
-  secret: process.env.WEBPLATFORM_SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
-}
-
-// Static folders.
-app.use('/static', express.static(path.join(__dirname, 'static')))
-app.use('/public', express.static(path.join(__dirname, 'public')))
-
-// View engine.
-app.set('view engine', 'pug')
-app.set('views', './views')
-
-// Parsers.
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cookieParser())
-
-// crsf protection.
-app.use(csrf({ cookie: true }))
-
-// Passport config
-app.use(expressSession(esOpts))
-app.use(flash())
-app.use(passport.initialize())
-app.use(passport.session())
-passport.use(localStrategy)
-passport.serializeUser(serializers.serializeUser)
-passport.deserializeUser(serializers.deserializeUser)
-
-// Internal Routers.
-app.use('/admin', routerAdmin)
 
 server.listen(port, () => {
   console.log(`Express working on ${port}`)
 })
+server.on('error', onError)
+server.on('listening', onListening)
+
+// Normalizacion del puerto para evitar errores con la variable de entorno.
+function normalizePort (port) {
+  port = parseInt(port, 10)
+  if (isNaN(port)) {
+    return port
+  } else if (port >= 0) {
+    // port is a number
+    return port
+  } else {
+    return false
+  }
+}
+
+// Obtencion de los errores de la instancia del server.
+function onError (err) {
+  if (err.syscall !== 'listen') {
+    throw err
+  }
+
+  let bind = (typeof port === 'string') ? `Pipe ${port}` : `Port ${port}`
+
+  if (err.code === 'EACCES') {
+    console.error(`${bind} requires elevated privileges`)
+    process.exit(1)
+  } else if (err.code === 'EADDRINUSE') {
+    console.error(`${bind} is already in use`)
+    process.exit(1)
+  } else {
+    throw err
+  }
+}
+
+function onListening () {
+  let addr = server.address()
+  let bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`
+  console.log(`listening on ${bind}`)
+}

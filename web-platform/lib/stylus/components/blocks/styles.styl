@@ -27,3 +27,46 @@
   &__name
     display block
     margin 0 auto rem-calc(20) auto
+
+.section-login
+  font-family primary-font-normal
+  background-color gray-base-light
+  grid('row', 'center', justify: 'center')
+  overflow hidden
+  height calc(100vh - 64px)
+  z-index 3
+  &--users
+    background-color rgba(4, 4, 4, .4)
+    position relative
+    z-index 3
+    &::after
+      background-image url('/static/bg/users.jpg')
+      background-size cover
+      background-position center
+      filter: blur(rem-calc(4))
+      content: ' '
+      height 100%
+      width 100%
+      position absolute
+      z-index 2
+  &--admin
+    background-image url('/static/bg/crossword.png')
+    background-repeat repeat
+  &__form
+    stack()
+    grid('row', justify: 'center')
+    background-color rgba(250, 250, 250, .6)
+    box-sizing border-box
+    border rem-calc(1) solid divider-color
+    border-radius rem-calc(5)
+    z-index 4
+    &__field
+      margin rem-calc(15) auto 0 auto
+    &__btn
+      margin rem-calc(15) auto
+    &__message-error
+      text-align center
+      stack()
+      color error-color
+      display block
+      margin rem-calc(0) auto rem-calc(0) auto

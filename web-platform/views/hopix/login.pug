@@ -1,19 +1,14 @@
 extends ../index.pug
 
 block title
-  title Inicia sesión
+  title 'hopix by unam'
 
 block header
   include ../header.pug
 
 block content
-  section(class='section-login  section-login--admin')
-    form(
-      class='section-login__form'
-      data-login='form'
-      method='post'
-      action='/admin/login'
-    )
+  section(class='section-login  section-login--users')
+    form(class='section-login__form')
       input(
         class='input  section-login__form__field'
         type='text'
@@ -40,6 +35,3 @@ block content
         class='section-login__form__message-error'
         data-login='message'
       )
-
-block scripts
-  script(src='/static/bin/login.bundle.js')
