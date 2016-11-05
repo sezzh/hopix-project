@@ -9,10 +9,13 @@ hopix.get('/', ensureAuthUser, (req, res) => {
 })
 
 hopix.get('/login', (req, res) => {
+  let welcomeMessage = 'Conocimiento, entrenamiento y experiencia, ' +
+  'todo en un solo lugar.'
+
   if (req.flash().error) {
 
   } else {
-    res.render('hopix/login')
+    res.render('hopix/register', { welcomeMessage: welcomeMessage })
   }
 })
 

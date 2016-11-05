@@ -6,7 +6,7 @@
   align-items center
   box-sizing content-box
   border-bottom rem-calc(4) solid primary-color
-  box-shadow 0 0 rem-calc(20) rgba(0,0,0,.4)
+  box-shadow 0 0 rem-calc(20) rgba(0, 0, 0, .4)
   height rem-calc(60)
   &--fixed
     top 0
@@ -24,28 +24,14 @@
     margin rem-calc(5) rem-calc(8)
     height rem-calc(50)
     &__img
-      position absolute
-      top 0
-      left 0
-      right 0
-      bottom 0
-      margin auto
-      max-width 80%
-      max-height 80%
+      img-center(80%, 80%)
   &__figure
     position relative
     width rem-calc(150)
     margin 0
     height rem-calc(60)
     &__img
-      position absolute
-      top 0
-      left 0
-      right 0
-      bottom 0
-      margin auto
-      max-width 50%
-      max-height 50%
+      img-center(50%, 50%)
   &__user-data
     height rem-calc(60)
     grid(direction: 'column', justify: 'center')
@@ -59,3 +45,23 @@
   &__options
     grid('row', justify: 'end')
     width calc(100% - 60px)
+
+.header-login
+  grid('row', 'center')
+  justify-content space-between
+  width 100%
+  height rem-calc(60)
+  box-sizing content-box
+  border-bottom rem-calc(4) solid primary-color
+  box-shadow 0 0 rem-calc(20) rgba(0,0,0,.4)
+  &--big
+    height rem-calc(80)
+  &__figure
+    position relative
+    height rem-calc(60)
+    width rem-calc(150)
+    margin 0
+    &__img
+      img-center(50%, 50%)
+  &__btn
+    margin-right rem-calc(4)

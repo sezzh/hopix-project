@@ -5,7 +5,7 @@
   height calc(100vh - 64px)
   bottom 0
   background-color gray-base-regular
-  box-shadow 0 0 rem-calc(20) dark-primary-shadow-color
+  box-shadow 0 0 rem-calc(20) shadow-darknest-color
   z-index 3
   &--hide
     bottom -100%
@@ -29,44 +29,72 @@
     margin 0 auto rem-calc(20) auto
 
 .section-login
-  font-family primary-font-normal
+  font-family font-primary-normal
   background-color gray-base-light
   grid('row', 'center', justify: 'center')
   overflow hidden
   height calc(100vh - 64px)
   z-index 3
   &--users
-    background-color rgba(4, 4, 4, .4)
     position relative
+    background-color dark-black-color
     z-index 3
-    &::after
+    &::before
       background-image url('/static/bg/users.jpg')
       background-size cover
       background-position center
-      filter: blur(rem-calc(4))
-      content: ' '
+      filter blur(4px)
+      content ' '
       height 100%
       width 100%
       position absolute
       z-index 2
+    &::after
+      position absolute
+      content ' '
+      height 100%
+      width 100%
+      z-index 3
+      background-color shadow-darknest-color
   &--admin
     background-image url('/static/bg/crossword.png')
     background-repeat repeat
+  &__section-welcome
+    stack()
+    text-align center
+    z-index 4
+    font-size rem-calc(28)
   &__form
     stack()
     grid('row', justify: 'center')
-    background-color rgba(250, 250, 250, .6)
+    background-color dark-accent-transparent-color
     box-sizing border-box
-    border rem-calc(1) solid divider-color
-    border-radius rem-calc(5)
+    border rem-calc(1) solid dark-black-color
+    border-radius rem-calc(4)
     z-index 4
     &__field
       margin rem-calc(15) auto 0 auto
     &__btn
-      margin rem-calc(15) auto
+      margin rem-calc(15) 0
+      width 90%
     &__message-error
       text-align center
       stack()
       color error-color
       display block
       margin rem-calc(0) auto rem-calc(0) auto
+
+.floating-login
+  grid('row', 'center', justify: 'center')
+  width 100%
+  padding 10%
+  background-color dark-accent-color
+  position absolute
+  z-index 4
+  &--hide
+    display none
+  &__input
+    cell(1,1, 'center', g: 16)
+  &__btn
+    width 100%
+    margin-top rem-calc(8)

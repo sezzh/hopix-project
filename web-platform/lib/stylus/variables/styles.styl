@@ -14,6 +14,7 @@ dark-base-gray = rgba(220, 220, 220, 1)
 regular-base-gray = rgba(232, 232, 232, 1)
 light-base-gray = rgba(240, 240, 240, 1)
 
+gray-base-darknest = darken(darker-base-gray, 20%)
 gray-base-darker = darker-base-gray
 gray-base-dark = dark-base-gray
 gray-base-regular = regular-base-gray
@@ -25,18 +26,20 @@ primary-color = yellow-base-color
 light-primary-color = lighten(yellow-base-color, 20)
 accent-color = purple-base-color
 dark-accent-color = black-base-color
+dark-accent-transparent-color = rgba(33, 52, 59, .4)
+dark-black-color = rgba(4, 4, 4, 1)
 
 
 // Text colors.
-light-text-icons-color = #FEFEFE
-dark-text-icons-color = rgba(4, 4, 4, 1)
-light-primary-text-color = #FEFEFE
-light-secondary-text-color = #757575
-dark-primary-text-color = #212121
+text-light-icons-color = #FEFEFE
+text-dark-icons-color = rgba(4, 4, 4, 1)
+text-light-primary-color = #FEFEFE
+text-light-secondary-color = #757575
+text-dark-primary-color = #212121
 
 // Shadow colors.
-dark-primary-shadow-color = rgba(4, 4, 4, .6)
-dark-primary-shadow-btn-color = rgba(44, 44, 44, .2)
+shadow-darknest-color = rgba(4, 4, 4, .6)
+shadow-dark-color = rgba(44, 44, 44, .2)
 
 // Neutral colors.
 divider-color = #BDBDBD
@@ -45,11 +48,11 @@ error-color = red-base-color
 
 //font settings
 
-primary-font-normal = 'graviola'
-default-font-size = rem-calc(16)
+font-primary-normal = 'graviola'
+font-default-size = rem-calc(18)
 //defaults
 
 .wrapper
   background-color dark-accent-color
-  font-family primary-font-normal
-  color light-primary-text-color
+  font-family font-primary-normal
+  color text-light-primary-color

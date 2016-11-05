@@ -10,8 +10,9 @@ var webpackOpts = {
   context: path.resolve(__dirname, 'lib/src'),
   // These are the apps from the template system.
   entry: {
-    login: './login-app/index',
-    admin: './admin-app/index'
+    adminlogin: './adminlogin-app/index',
+    admin: './admin-app/index',
+    login: './login-app/index'
   },
   output: {
     path: path.join(__dirname, 'static', 'bin'),

@@ -1,0 +1,67 @@
+extends ../index.pug
+
+block title
+  title hopix by unam
+
+block header
+  header(class='header-login')
+    figure(class='header-login__figure')
+      img(class='header-login__figure__img' src='/static/logo/logo.png')
+    button(class= 'btn  btn--login  header-login__btn') Iniciar sesión
+  form(class='floating-login  floating-login--hide')
+    input(
+      type='text'
+      class='input  floating-login__input'
+      placeholder='tu@email.com'
+    )
+    input(
+      type='password'
+      class='input  floating-login__input'
+      placeholder='Contraseña'
+    )
+    button(class='btn  btn--form  floating-login__btn') Login
+
+block content
+  section(class='section-login  section-login--users')
+    section(class='section-login__section-welcome')
+      article(
+        class='section-login__section-welcome__message'
+      )= welcomeMessage
+    form(
+      class='section-login__form'
+    )
+      input(
+        class='input  section-login__form__field'
+        type='text'
+        placeholder='tu@email.com'
+        data-login='data-username'
+      )
+      input(
+        class='input  section-login__form__field'
+        type='password'
+        placeholder='Contraseña'
+        data-login='data-password'
+      )
+      input(
+        class='input  section-login__form__field'
+        type='password'
+        placeholder='repite tu contraseña :)'
+        data-login='data-password'
+        )
+      input(
+        type='hidden'
+        value= csrfToken
+        name='_csrf'
+        data-login='data-token'
+      )
+      button(
+        class='btn  btn--form  section-login__form__btn'
+        data-login='create'
+      ) Crea una cuenta
+      span(
+        class='section-login__form__message-error'
+        data-login='message'
+      )
+
+block scripts
+  script(src='/static/bin/login.bundle.js')

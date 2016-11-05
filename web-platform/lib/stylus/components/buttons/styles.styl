@@ -1,12 +1,12 @@
 .btn
   font-size rem-calc(16)
-  font-family primary-font-normal
+  font-family font-primary-normal
   padding rem-calc(10)
   background-color gray-base-darker
   border 0
   border-radius rem-calc(4)
-  color light-primary-text-color
-  &--login
+  color text-light-primary-color
+  &--form
     background-color accent-color
   &--nav-menu
     box-sizing padding-box
@@ -27,7 +27,7 @@
     background-color rgba(144,144,144,.5)
     box-sizing border-box
     border-radius 50%
-    box-shadow 0 0 rem-calc(10) dark-primary-shadow-btn-color
+    box-shadow 0 0 rem-calc(10) shadow-dark-color
     &:active
       background-color primary-color
     &:nth-child(odd)
@@ -35,16 +35,23 @@
     &:last-child
       margin-right rem-calc(7.5)
       margin-left 0
+  &--login
+    background-color transparent
+    color primary-color
+    text-decoration underline
+    font-size rem-calc(17)
+    &:active
+      background-color accent-color
 
 .btn-round
-  color light-text-icons-color
+  color text-light-icons-color
   background-color accent-color
   box-sizing padding-box
   border-radius 50%
   width rem-calc(60)
   height rem-calc(60)
   border 0
-  box-shadow 0 0 rem-calc(20) dark-primary-shadow-btn-color
+  box-shadow 0 0 rem-calc(20) shadow-dark-color
   &:active
     background-color primary-color
   &--fixed
