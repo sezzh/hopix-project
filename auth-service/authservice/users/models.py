@@ -40,10 +40,10 @@ class Users(db.Model, CRUD):
         self.password = password
 
 
-# Custom validator
+# validator de campos vacíos
 def must_not_be_blank(data):
     if not data:
-        raise ValidationError('Dato no proporcionado.')
+        raise ValidationError('El atributo no puede ser nulo.')
 
 
 # Schema Users
@@ -53,14 +53,22 @@ class UsersSchema(Schema):
     id = fields.Integer(dump_only=True)
     email = fields.Email(
         required=True,
-        validate=must_not_be_blank,
         load_from='sub',
-        dump_to='sub'
+        dump_to='sub',
+        validate=must_not_be_blank,
+        error_messages={
+            'invalid': 'Email no válido.',
+            'required': 'Atributo obligatorio.'
+        }
     )
     password = fields.String(
         required=True,
         load_only=True,
-        validate=must_not_be_blank
+        validate=must_not_be_blank,
+        error_messages={
+            'invalid': 'No es un string válido.',
+            'required': 'Atributo obligatorio.'
+        }
     )
     is_active = fields.Boolean(dump_only=True)
 
