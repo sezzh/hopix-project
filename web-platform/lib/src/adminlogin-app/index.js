@@ -49,7 +49,6 @@ import axios from 'axios'
 
   function sendRequest (data) {
     axios.post('/admin/login', data).then((response) => {
-      // TODO
       if (response.data === 'done') {
         window.location.assign('/admin')
       }
