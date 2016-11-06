@@ -1,10 +1,11 @@
 # -*- encoding: utf-8 -*-
-from flask import jsonify, make_response
+from flask import jsonify
 from authservice.superusers.models import Superusers
 from authservice.users.models import Users
 from datetime import timedelta, datetime
 from authservice.lib import jwt
 from authservice.lib.encrypt import check_sha512
+from authservice.lib.errors import error_409, error_410, error_500
 
 
 def auth_superuser(req_username, req_password, req_exp):
@@ -13,10 +14,7 @@ def auth_superuser(req_username, req_password, req_exp):
         expiration = expiration if expiration < 11000 else 10080
         user = Superusers.query.filter_by(username=req_username).first()
         if user is None:
-            res = jsonify(
-                {"mensaje": "¡El usuario y/o la contraseña son incorectos!"}
-            )
-            res.status_code = 200
+            res = error_410()
         else:
             username = user.username
             hash_encrypt = user.password
@@ -37,18 +35,16 @@ def auth_superuser(req_username, req_password, req_exp):
                 res = jsonify({"token": results})
                 res.status_code = 201
             else:
-                res = jsonify(
-                    {"mensaje": "¡El usuario y/o la " +
-                        "contraseña son incorectos!"}
-                )
-                res.status_code = 200
+                err = ({
+                    "sub": ["Dato incorrecto"],
+                    "password": ["Dato incorrecto."]
+                })
+                res = error_409(err)
             return res
         return res
 
     except Exception as e:
-        res = make_response()
-        res.status_code = 500
-        return res
+        return error_500()
 
 
 def auth_user(req_email, req_password, req_exp):
@@ -57,14 +53,11 @@ def auth_user(req_email, req_password, req_exp):
         expiration = expiration if expiration < 11000 else 10080
         user = Users.query.filter_by(email=req_email).first()
         if user is None:
-            resp = jsonify(
-                {"mensaje": "¡El usuario y/o la contraseña son incorectos!"}
-            )
-            resp.status_code = 200
+            res = error_410()
         else:
             email = user.email
             hash_encrypt = user.password
-            validate = encrypt.check_sha512(password, hash_encrypt)
+            validate = check_sha512(req_password, hash_encrypt)
             if validate and (req_email == email):
                 expire = (
                     datetime.utcnow() + timedelta(minutes=expiration)
@@ -81,15 +74,13 @@ def auth_user(req_email, req_password, req_exp):
                 res = jsonify({"token": results})
                 res.status_code = 201
             else:
-                res = jsonify(
-                    {"mensaje": "¡El usuario y/o la " +
-                        "contraseña son incorectos!"}
-                )
-                res.status_code = 200
+                err = ({
+                    "sub": ["Dato incorrecto"],
+                    "password": ["Dato incorrecto."]
+                })
+                res = error_409(err)
             return res
         return res
 
     except Exception as e:
-        res = make_response()
-        res.status_code = 500
-        return res
+        return error_500()
