@@ -1,54 +1,41 @@
 # -*- encoding: utf-8 -*-
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, jsonify, request
 from flask_restful import Resource, Api, reqparse
 from authservice.auth.auth_user import auth_superuser, auth_user
 from marshmallow import ValidationError
-
+from authservice.lib.errors import error_409, error_410, error_422, error_500
+from authservice.auth.models import TokenSchema
 
 tokens = Blueprint('tokens', __name__)
-
+schema = TokenSchema()
 api = Api(tokens)
-
-parser = reqparse.RequestParser()
-
-parser.add_argument('type', required=False, type=str,
-                    help="el atributo [type] no puede estar vacío!"
-                    )
-
-parser.add_argument('sub', required=True, type=str,
-                    help="el atributo [sub] no puede estar vacío!"
-                    )
-
-parser.add_argument('password', required=True, type=str,
-                    help="El atributo [password] no puede estar vacío!"
-                    )
-
-parser.add_argument('exp', required=False, type=int)
 
 
 class Tokens(Resource):
     def post(self):
         if request.content_type != "application/json":
-            resp = jsonify({"error": "¡ Petición solicitada no soportada! :("})
-            resp.status_code = 422
-            return resp
+            err = {"content_type": ["Se esperaba application/json"]}
+            return error_422(err)
         else:
-            args = parser.parse_args()
-            p_type = args.type if args.type is not None else "user"
-            try:
-                if p_type == "superuser":
-                    return auth_superuser(args.sub, args.password, args.exp)
-                elif p_type == "user":
-                    return auth_user(args.sub, args.password, args.exp)
-                else:
-                    resp = jsonify({"aviso": "token no soportado aún :("})
-                    resp.status_code = 422
-                    return resp
+            json_data = request.get_json(force=True)
+            if not json_data:
+                err = {"datos": ["Información insuficientes."]}
+                return error_422(err)
+            data, errors = schema.load(json_data)
+            req_type = data.get('type')
+            req_exp = data.get('exp') if data.get('exp') is not None else 10080
+            req_email = data.get('email')
+            req_pw = data.get('password')
 
-            except ValidationError as err:
-                resp = jsonify({"error": err.messages})
-                resp.status_code = 422
-                return resp
+            if errors:
+                return error_422(errors)
+            elif req_type is None:
+                return auth_user(req_email, req_pw, req_exp)
+            elif req_type == "superuser":
+                return auth_superuser(req_email, req_pw, req_exp)
+            else:
+                err = {"type": ["Tipo de autentificación no válida."]}
+                return error_422(err)
 
 
 api.add_resource(Tokens, '')

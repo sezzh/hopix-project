@@ -21,7 +21,7 @@ def validate_email(email):
 
 """
 (?=.*[A-Z])     Algúna letra en mayúscula
-(?=.*[!@#$&*])  Algún caracter especial de la lista
+(?=.*[!#$%&/()?¿¡@;*]  Algún caracter especial de la lista
 (?=.*[0-9])     Algún número
 (?=.*[a-z])     Algúna letra en minúscula
 {8,15}          dominio de 8 a 15 letras
@@ -29,7 +29,7 @@ def validate_email(email):
 
 
 def validate_password(password):
-    pattern = '(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,15}'
+    pattern = '(?=.*[A-Z])(?=.*[!#$%&/()?¿¡@;*])(?=.*[0-9])(?=.*[a-z]).{8,15}'
     if re.match(pattern, password):
         return True
     else:

@@ -1,10 +1,11 @@
 # -*- encoding: utf-8 -*-
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, make_response
 from authservice.users.models import Users, UsersSchema, db
 from flask_restful import Api, Resource
 
 from authservice.lib.encrypt import encrypt_sha512
 from authservice.lib.regex_validators import validate_password
+from authservice.lib.errors import error_409, error_410, error_422, error_500
 
 
 users = Blueprint('users', __name__)
@@ -12,46 +13,47 @@ schema = UsersSchema()
 api = Api(users)
 
 
-# Recurso de los Users
+# Recurso de Users
 
 class UsersList(Resource):
     def get(self):
         try:
-            users_query = Users.query.all()
-            # Serialize the queryset
-            resp = schema.dump(users_query, many=True).data
-            return resp
+            query_set = Users.query.all()
+            # Serializamos el query set indicando con many que es un array
+            res = schema.dump(query_set, many=True).data
+            return res, 200
         except Exception as e:
-            resp = jsonify({"mensaje": "¡ No tenemos conexión a la BD :(!"})
-            resp.status_code = 500
-            return resp
+            # Excepción si falla la conexión
+            return error_500()
 
     def post(self):
+        # Valida que la petición sea <application/json>
         if request.content_type != "application/json":
-            resp = jsonify({"error": "¡Petición solicitada no soportada :(!"})
-            resp.status_code = 422
-            return resp
+            err = {"content_type": ["Se esperaba application/json"]}
+            return error_422(err)
         else:
-            json_data = request.get_json()
+            # Obtiene la información del request
+            json_data = request.get_json(force=True)
             if not json_data:
-                resp = jsonify({'mensaje': 'No se han proporcionado datos'})
-                resp.status_code = 422
-                return resp
-            # validate and deserialize input
+                err = {"datos": ["Información insuficientes."]}
+                return error_422(err)
+            # validamos y deserializamos el request
             data, errors = schema.load(json_data)
+
             if errors:
-                return errors, 422
+                return error_422(errors)
             try:
                 email, password = data['email'], data['password']
-                user = Users.query.filter_by(email=email).first()
+                # Consulta si existe algún email igual
+                query_set = Users.query.filter_by(email=email).first()
+                # Validación con expresión regular
                 pw_validate = validate_password(password)
                 if not pw_validate:
-                    error = jsonify({"mensaje": "La contraseña es incorrecta"})
-                    error.status_code = 422
-                    return error
+                    err = {"password": ["La contraseña no es válida."]}
+                    return error_422(err)
 
-                if user is None:
-                    # Create a new user
+                if query_set is None:
+                    # Crear el nuevo user
                     password_sha = encrypt_sha512(password, 10000, 10)
                     user = Users(
                         email=email,
@@ -59,17 +61,78 @@ class UsersList(Resource):
                     )
                     user.add(user)
                     query = Users.query.get(user.id)
-                    resp = schema.dump(query).data
-                    return resp, 201
+                    res = schema.dump(query).data
+                    return res, 201
                 else:
-                    resp = jsonify({'mensaje': 'El usuario ya existe'})
-                    resp.status_code = 409
-                    return resp
+                    err = {"sub": ["El usuario ya existe"]}
+                    return error_409(err)
 
             except Exception as e:
-                resp = jsonify({"mensaje": "¡No tenemos conexión a la BD :(!"})
-                resp.status_code = 500
-                return resp
+                return error_500()
+
+
+class UserDetail(Resource):
+    def get(self, id):
+        try:
+            # Consulta de User con <id>
+            query_set = Users.query.get(id)
+            if query_set is None:
+                return error_410()
+            else:
+                # Serialización del query set
+                res = schema.dump(query_set).data
+                res.status_code = 200
+                return res
+        except Exception as e:
+            # Excepción si falla la conexión
+            return error_500()
+
+    def put(self, id):
+        # Valida que la petición sea <application/json>
+        if request.content_type != "application/json":
+            err = {"content_type": ["Se esperaba application/json"]}
+            return error_422(err)
+        else:
+            json_data = request.get_json(force=True)
+            # Obtiene la información del request
+            if not json_data:
+                err = {"datos": ["Información insuficientes."]}
+                return error_422(err)
+            # validamos y deserializamos el request
+            data, errors = schema.load(json_data)
+            if errors:
+                return error_422(errors)
+            try:
+                user = Users.query.get(id)
+                if user is None:
+                    return error_410()
+                email, password = data['email'], data['password']
+                pw_validate = validate_password(password)
+                if not pw_validate:
+                    err = {"password": ["La contraseña no es válida."]}
+                    return error_422(err)
+                password_sha = encrypt_sha512(password, 10000, 10)
+                setattr(user, 'email', email)
+                setattr(user, 'password', password_sha)
+                user.update()
+                return self.get(id)
+            except Exception as e:
+                return error_500()
+
+    def delete(self, id):
+        try:
+            user = Users.query.get(id)
+            if user is None:
+                return error_410()
+            else:
+                delete = user.delete(user)
+                res = make_response()
+                res.status_code = 204
+                return res
+        except Exception as e:
+            # Excepción si falla la conexión
+            return error_500()
 
 
 api.add_resource(UsersList, '')
+api.add_resource(UserDetail, '/<int:id>')

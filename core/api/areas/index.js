@@ -10,47 +10,72 @@ areas.get('/areas', (req, res) => {
       data.push(area.dataValues)
     })
     res.status(200).json(data)
+  }).catch((err) => {
+    if (err) {
+      res.status(500).end()
+    }
   })
 })
 
 areas.get('/areas/:areaId', (req, res) => {
-  db.Area.find({ where: { id: req.params.areaId } }).then((area) => {
-    res.status(200).json(area)
+  db.Area.findOne({ where: { id: req.params.areaId } }).then((area) => {
+    (area !== null) ? res.status(200).json(area) : res.status(404).end()
+  }).catch((err) => {
+    if (err) {
+      res.status(500).end()
+    }
   })
 })
 
 areas.post('/areas', (req, res) => {
-  db.Area.create({
-    name: req.body.name,
-    static_img: req.body.static_img
-  }).then(() => {
+  db.sequelize.authenticate().then(() => {
     db.Area.findOrCreate({
       where: { name: req.body.name }
     }).spread((area, created) => {
-      res.status(201).json(area.get({ plain: true }))
+      if (created) {
+        res.status(201).json(area.get({ plain: true }))
+      } else {
+        res.status(409).end()
+      }
+    }).catch((errors) => {
+      if (errors) {
+        res.status(422).end()
+      }
     })
+  }).catch((err) => {
+    if (err) {
+      res.status(500).end()
+    }
   })
 })
 
 areas.put('/areas/:areaId', (req, res) => {
-  db.Area.update(
-    { name: req.body.name },
-    { where: { id: req.params.areaId }, returning: true }
-  ).then((result) => {
-    if (result[0] === 0) {
-      res.sendStatus(204)
-    } else if (result[0] >= 1) {
-      res.status(200).json(result[1])
+  db.sequelize.authenticate().then(() => {
+    db.Area.update(
+      { name: req.body.name },
+      { where: { id: req.params.areaId }, returning: true }
+    ).then((result) => {
+      (result[0] === 0) ? res.status(404).end() : res.status(200).json(result[1])
+    }).catch((errors) => {
+      if (errors) {
+        res.status(422).end()
+      }
+    })
+  }).catch((err) => {
+    if (err) {
+      res.status(500).end()
     }
   })
 })
 
 areas.delete('/areas/:areaId', (req, res) => {
-  db.Area.destroy({ where: { id: req.params.areaId } }).then((rows) => {
-    if (rows === 0) {
-      res.sendStatus(404)
-    } else if (rows === 1) {
-      res.sendStatus(200)
+  db.sequelize.authenticate().then(() => {
+    db.Area.destroy({ where: { id: req.params.areaId } }).then((rows) => {
+      (rows === 0) ? res.status(404).end() : res.status(204).end()
+    })
+  }).catch((err) => {
+    if (err) {
+      res.status(500).end()
     }
   })
 })
