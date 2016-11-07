@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 (function () {
+  const STATUS_CODE_OK = 200
   var form = document.querySelector('[data-login="form"]')
 
   form.addEventListener('submit', (event) => {
@@ -31,7 +32,7 @@ import axios from 'axios'
         }
       }
     }
-    sendRequest(data)
+    if (data.username !== '' && data.password !== '') sendRequest(data)
   })
 
   function displayError (message) {
@@ -49,7 +50,7 @@ import axios from 'axios'
 
   function sendRequest (data) {
     axios.post('/admin/login', data).then((response) => {
-      if (response.data === 'done') {
+      if (response.status === STATUS_CODE_OK) {
         window.location.assign('/admin')
       }
     }).catch((error) => {

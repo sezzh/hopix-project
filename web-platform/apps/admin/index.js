@@ -25,7 +25,7 @@ passport.authenticate(
   { failureRedirect: '/admin/login', failureFlash: true }
 ),
 (req, res) => {
-  res.status(200).send('done')
+  res.sendStatus(200)
 })
 
 // Resources endpoints

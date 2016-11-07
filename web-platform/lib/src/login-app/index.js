@@ -7,7 +7,7 @@ import validate from 'validate.js'
   var registryForm = document.querySelector('[data-registry="form"]')
   var loginForm = document.querySelector('[data-login="form"]')
 
-  btnOpenLogin.addEventListener('click', () => {
+  btnOpenLogin.addEventListener('click', (event) => {
     if (loginForm.hasClass('floating-login--hide')) {
       loginForm.removeClass('floating-login--hide')
     } else {
@@ -15,12 +15,24 @@ import validate from 'validate.js'
     }
   })
 
+  loginForm.addEventListener('submit', (event) => {
+    event.preventDefault()
+    let username = loginForm.querySelector('[data-login="username"]').value
+    let password = loginForm.querySelector('[data-login="password"]').value
+    let csrf = loginForm.querySelector('[data-login="data-token"]').value
+    let data = {
+      username: username,
+      password: password,
+      _csrf: csrf
+    }
+    if (username !== '' && password !== '') { login(data) }
+  })
+
   registryForm.addEventListener('submit', (event) => {
+    event.preventDefault()
     let emailError = 'No parece un email valido D:'
     let passwordError = 'las contraseñas no parecen coincidir...'
     let data = {}
-    event.preventDefault()
-
     let passConstraints = {
       confirmPassword: {
         equality: {
@@ -28,7 +40,6 @@ import validate from 'validate.js'
         }
       }
     }
-
     let emailConstraints = {
       from: {
         email: true
@@ -71,16 +82,20 @@ import validate from 'validate.js'
         return axios.post('/login', loginOpts)
       }
     }).then((response) => {
-      if (response.data === 'done') {
+      if (response.status === 200) {
         window.location.assign('/')
       }
     }).catch((error) => {
-      displayError(error)
+      displayError(error.response.data.error)
     })
   }
 
-  function login () {
-
+  function login (data) {
+    axios.post(loginForm.action, data).then((response) => {
+      if (response.status === 200) { window.location.assign('/') }
+    }).catch((error) => {
+      displayError(error.response.data.error)
+    })
   }
 
   function displayError (message) {

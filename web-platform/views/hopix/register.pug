@@ -21,25 +21,27 @@ block header
       type='text'
       name='username'
       class='input  floating-login__input'
+      data-login='username'
       placeholder='tu@email.com'
     )
     input(
       type='password'
       name='password'
+      data-login='password'
       class='input  floating-login__input'
       placeholder='Contraseña'
     )
     input(
       type='hidden'
       value= csrfToken
+      data-login='data-token'
       name='_csrf'
     )
     button(class='btn  btn--form  floating-login__btn') Login
-    if message
-      span(
-        class='section-login__form__message-error'
+    span(
+        class='floating-login__message  floating-login__message--hide'
         data-registry='message'
-      )= message
+    )
 
 
 block content
