@@ -14,3 +14,4 @@ web-platform/static/css/styles.css
 web-platform/public/*
 web-platform/static/bin/*.js
 core/migrations
+core/config

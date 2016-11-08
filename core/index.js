@@ -18,7 +18,7 @@ db.sequelize.authenticate().then(() => {
   server.on('listening', onListening)
 }).catch((err) => {
   if (err) {
-    console.log('No tenemos conexión a la BD :(')
+    console.log('error: conexión a la BD :(')
   }
 })
 

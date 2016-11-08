@@ -14,6 +14,7 @@ const sequelizeOpts = {
   }
 }
 
+// Conexión a base de datos
 const sequelize = new Sequelize(
   process.env.CORE_DB_NAME_SECRET,
   process.env.CORE_DB_USERNAME_SECRET,
@@ -37,6 +38,5 @@ Object.keys(db).forEach((modelName) => {
 })
 
 db.sequelize = sequelize
-db.Sequelize = Sequelize
 
 module.exports = db

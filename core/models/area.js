@@ -1,26 +1,14 @@
-module.exports = function (sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   var Area = sequelize.define('Area', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      allowNull: false,
-      primaryKey: true
-    },
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
-      // unique: true,
       validate: {
-        notEmpty: true
+        notEmpty: {msg: 'El atributo no puede ser nulo.'}
       }
-    },
-    static_img: {
-      type: DataTypes.TEXT,
-      allowNull: true
     }
   }, {
     classMethods: {
-      associate: function (models) {
+      associate: (models) => {
         // associations can be defined here
       }
     }
