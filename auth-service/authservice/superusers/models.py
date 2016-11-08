@@ -4,16 +4,26 @@ from collections import OrderedDict
 from authservice import db
 
 
-class CRUD():
+class DAO():
+    """Ejecuta los cambios del recurso Superusers."""
+
     def update(self):
+        """Realiza la actualización del recurso Superusers."""
         return db.session.commit()
 
     def delete(self, resource):
+        """Realiza la eliminación del recurso Superusers.
+
+        Argumentos:
+        resource - Objeto del tipo Superusers
+        """
         db.session.delete(resource)
         return db.session.commit()
 
 
-class Superusers(db.Model, CRUD):
+class Superusers(db.Model, DAO):
+    """Estructura básica del recurso Users."""
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
@@ -30,7 +40,13 @@ class Superusers(db.Model, CRUD):
     password = db.Column(db.Text(), nullable=False)
 
     def __init__(self,  username, email, password):
+        """Constructor de Superusers.
 
+        Argumentos:
+        username - nombre del superusuario
+        email - correo
+        password - contraseña
+        """
         self.username = username
         self.email = email
         self.password = password
@@ -39,6 +55,11 @@ class Superusers(db.Model, CRUD):
 # validator de campos vacíos
 
 def must_not_be_blank(data):
+    """Validación de atributos vacios.
+
+    Argumentos:
+    data - valor del atributo
+    """
     if not data:
         raise ValidationError('El atributo no puede ser nulo.')
 
@@ -46,6 +67,8 @@ def must_not_be_blank(data):
 # Schema Superusers
 
 class SuperusersSchema(Schema):
+    """Estructura de Superusers del tipo Schema."""
+
     # atributo id autoincrementable y de solo lectura dump_only=True
     id = fields.Integer(dump_only=True)
     username = fields.String(
