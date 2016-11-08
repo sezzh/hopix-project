@@ -52,16 +52,20 @@ import validate from 'validate.js'
       registryForm.querySelector('[data-registry="data-password"]').value
     let passwordR =
       registryForm.querySelector('[data-registry="data-password-r"]').value
-
+    let element = registryForm.querySelector('[data-registry="message"]')
     // Validators
     let passValidation = validate({
       password: password, confirmPassword: passwordR
     }, passConstraints)
     let emailValidation = validate({ from: email }, emailConstraints)
     if (emailValidation) {
-      displayError(emailError)
+      displayError(
+        emailError, element, 'section-login__form__message-error--hide'
+      )
     } else if (passValidation) {
-      displayError(passwordError)
+      displayError(
+        passwordError, element, 'section-login__form__message-error--hide'
+      )
     } else {
       data.username = email
       data.password = password
@@ -86,23 +90,29 @@ import validate from 'validate.js'
         window.location.assign('/')
       }
     }).catch((error) => {
-      displayError(error.response.data.error)
+      let element = registryForm.querySelector('[data-registry="message"]')
+      displayError(
+        error.response.data.error, element,
+        'section-login__form__message-error--hide'
+      )
     })
   }
 
   function login (data) {
+    let element = loginForm.querySelector('[data-login="message"]')
     axios.post(loginForm.action, data).then((response) => {
       if (response.status === 200) { window.location.assign('/') }
     }).catch((error) => {
-      displayError(error.response.data.error)
+      displayError(
+        error.response.data.error, element, 'floating-login__message--hide'
+      )
     })
   }
 
-  function displayError (message) {
-    let errorSpan = registryForm.querySelector('[data-registry="message"]')
-    errorSpan.innerHTML = message
-    if (errorSpan.hasClass('section-login__form__message-error--hide')) {
-      errorSpan.removeClass('section-login__form__message-error--hide')
+  function displayError (message, element, cssClass) {
+    element.innerHTML = message
+    if (element.hasClass(cssClass)) {
+      element.removeClass(cssClass)
     }
   }
 })()
