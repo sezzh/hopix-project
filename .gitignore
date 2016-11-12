@@ -16,3 +16,4 @@ web-platform/public/*
 web-platform/static/bin/*.js
 !web-platform/static/bin
 core/migrations
+core/config

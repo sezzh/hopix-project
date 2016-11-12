@@ -9,6 +9,13 @@ from authservice.lib.errors import error_409, error_410, error_500
 
 
 def auth_superuser(req_username, req_password, req_exp):
+    """Valida información y otorga token a Superusers.
+
+    Argumentos:
+    req_username - Usuario
+    req_password - Contraseña
+    req_exp - Tiempo de expiración del token
+    """
     try:
         expiration = req_exp if req_exp is not None else 10080
         expiration = expiration if expiration < 11000 else 10080
@@ -48,6 +55,13 @@ def auth_superuser(req_username, req_password, req_exp):
 
 
 def auth_user(req_email, req_password, req_exp):
+    """Valida información y otorga token a Users.
+
+    Argumentos:
+    req_email - Correo
+    req_password - Contraseña
+    req_exp - Tiempo de expiración del token
+    """
     try:
         expiration = req_exp if req_exp is not None else 10080
         expiration = expiration if expiration < 11000 else 10080

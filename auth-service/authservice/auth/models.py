@@ -5,6 +5,11 @@ from collections import OrderedDict
 
 # validator de campos vacíos
 def must_not_be_blank(data):
+    """Validación de atributos vacios.
+
+    Argumentos:
+    data - valor del atributo
+    """
     if not data:
         raise ValidationError('El atributo no puede ser nulo.')
 
@@ -12,6 +17,8 @@ def must_not_be_blank(data):
 # Schema Tokens
 
 class TokenSchema(Schema):
+    """Estructura del Token del tipo Schema."""
+
     # atributo id autoincrementable y de solo lectura dump_only=True
     email = fields.String(
         required=True,

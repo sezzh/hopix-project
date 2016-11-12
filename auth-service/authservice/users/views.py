@@ -2,11 +2,9 @@
 from flask import Blueprint, request, make_response
 from authservice.users.models import Users, UsersSchema, db
 from flask_restful import Api, Resource
-
 from authservice.lib.encrypt import encrypt_sha512
 from authservice.lib.regex_validators import validate_password
 from authservice.lib.errors import error_409, error_410, error_422, error_500
-
 
 users = Blueprint('users', __name__)
 schema = UsersSchema()
@@ -14,9 +12,11 @@ api = Api(users)
 
 
 # Recurso de Users
-
 class UsersList(Resource):
+    """Recibe las peticiones [GET,POST] del recurso users."""
+
     def get(self):
+        """Obtiene un arreglo de Users."""
         try:
             query_set = Users.query.all()
             # Serializamos el query set indicando con many que es un array
@@ -27,6 +27,7 @@ class UsersList(Resource):
             return error_500()
 
     def post(self):
+        """Crea un nuevo User."""
         # Valida que la petición sea <application/json>
         if request.content_type != "application/json":
             err = {"content_type": ["Se esperaba application/json"]}
@@ -72,7 +73,14 @@ class UsersList(Resource):
 
 
 class UserDetail(Resource):
+    """Recibe las peticiones [GET,PUT,DELETE] del recurso users."""
+
     def get(self, id):
+        """Devuelve al User con <id>.
+
+        Parametros:
+        id -- Entero
+        """
         try:
             # Consulta de User con <id>
             query_set = Users.query.get(id)
@@ -88,6 +96,11 @@ class UserDetail(Resource):
             return error_500()
 
     def put(self, id):
+        """Actualiza al User con <id>.
+
+        Parametros:
+        id -- Entero
+        """
         # Valida que la petición sea <application/json>
         if request.content_type != "application/json":
             err = {"content_type": ["Se esperaba application/json"]}
@@ -120,6 +133,11 @@ class UserDetail(Resource):
                 return error_500()
 
     def delete(self, id):
+        """Elimina al User con <id>.
+
+        Parametros:
+        id -- Entero
+        """
         try:
             user = Users.query.get(id)
             if user is None:

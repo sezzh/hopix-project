@@ -5,21 +5,35 @@ from collections import OrderedDict
 from authservice import db
 
 
-class CRUD():
+class DAO():
+    """Ejecuta los cambios del recurso Users."""
 
     def add(self, resource):
+        """Realiza la creación del recurso Users.
+
+        Argumentos:
+        resource - Objeto del tipo Users
+        """
         db.session.add(resource)
         return db.session.commit()
 
     def update(self):
+        """Realiza la actualización del recurso Users."""
         return db.session.commit()
 
     def delete(self, resource):
+        """Realiza la eliminación del recurso Users.
+
+        Argumentos:
+        resource - Objeto del tipo Users
+        """
         db.session.delete(resource)
         return db.session.commit()
 
 
-class Users(db.Model, CRUD):
+class Users(db.Model, DAO):
+    """Estructura básica del recurso Users."""
+
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), unique=True, nullable=False)
     creation_time = db.Column(
@@ -35,22 +49,30 @@ class Users(db.Model, CRUD):
     password = db.Column(db.Text(), nullable=False)
 
     def __init__(self,  email, password):
+        """Constructor de Users.
 
+        Argumentos:
+        email - correo
+        password - contraseña
+        """
         self.email = email
         self.password = password
 
 
-# validator de campos vacíos
 def must_not_be_blank(data):
+    """Validación de atributos vacios.
+
+    Argumentos:
+    data - valor del atributo
+    """
     if not data:
         raise ValidationError('El atributo no puede ser nulo.')
 
 
-# Schema Users
-
 class UsersSchema(Schema):
-    # atributo id autoincrementable y de solo lectura dump_only=True
-    id = fields.Integer(dump_only=True)
+    """Estructura de Users del tipo Schema."""
+
+    id = fields.Integer(dump_only=True)  # solo lectura dump_only=True
     email = fields.Email(
         required=True,
         load_from='sub',

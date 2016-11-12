@@ -17,6 +17,7 @@ session = Session()
 
 
 def create_superuser():
+    """Crea un nuevo Superuser."""
     print("Nuevo administrador")
     username = input("Ingrese su Usuario: ")
     email = input("Ingrese su Correo: ")
