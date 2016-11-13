@@ -17,7 +17,7 @@ module.exports.ensureIsSuperUser = function (req, res, next) {
   if (req.isAuthenticated() && req.user.type === 'superuser') {
     return next()
   } else {
-    res.status(403)
+    res.sendStatus(403)
   }
 }
 

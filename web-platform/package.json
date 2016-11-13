@@ -9,7 +9,7 @@
     "dev": "NODE_PATH=./ nodemon -L --ignore lib/ --ignore static/ --debug index.js",
     "build-stylus": "NODE_PATH=./ stylus -u nib -w lib/stylus/*.styl -o static/css/styles.css",
     "build-apps": "NODE_PATH=./ node webpack.config.js",
-    "build-all": "NODE_PATH=./ stylus -u nib lib/stylus/*.styl -o static/css/styles.css && node webpack.config.js"
+    "build-all": "NODE_PATH=./ stylus -u nib lib/stylus/*.styl -o static/css/styles.css && node webpack.config.production.js"
   },
   "author": "",
   "license": "ISC",

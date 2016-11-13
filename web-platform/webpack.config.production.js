@@ -18,6 +18,16 @@ var webpackOpts = {
     path: path.join(__dirname, 'static', 'bin'),
     filename: '[name].bundle.js'
   },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+      output: {
+        comments: false
+      }
+    })
+  ],
   resolve: {
     extensions: ['', '.js', '.jsx', '.json']
   },
@@ -37,9 +47,9 @@ var webpackOpts = {
 
 var compiler = webpack(webpackOpts)
 
-compiler.watch(watcherOpts, (err, stats) => {
+compiler.run((err, stats) => {
   if (err) {
-    console.log(err.message)
+    console.log(err)
   } else {
     console.log(stats.toString({ minimal: true, colors: true }))
     console.log('build done.')
