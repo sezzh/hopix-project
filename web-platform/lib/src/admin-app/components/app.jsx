@@ -5,6 +5,8 @@ import Header from './header.jsx'
 import MenuNav from './menu-nav.jsx'
 import AreaList from './area-list.jsx'
 import AreaDetail from './area-detail.jsx'
+import Area from '../models/area.js'
+import AreaApi from '../io/area-api.js'
 
 export default class App extends React.Component {
   constructor () {
@@ -13,11 +15,39 @@ export default class App extends React.Component {
     this.handleAreaDetailState = this.handleAreaDetailState.bind(this)
     this.handleNavOptionsState = this.handleNavOptionsState.bind(this)
     this.handleCreateState = this.handleCreateState.bind(this)
+    this.handleSaveArea = this.handleSaveArea.bind(this)
+    this.refreshList = this.refreshList.bind(this)
+    this.handleCreateArea = this.handleCreateArea.bind(this)
+    this.areaApi = new AreaApi()
+    this.area = new Area()
     this.state = {
       areaDetailState: false,
       navOptionsState: false,
-      menuState: false
+      menuState: false,
+      areas: []
     }
+  }
+
+  componentWillMount () {
+
+  }
+
+  componentDidMount () {
+    this.refreshList()
+  }
+
+  handleSaveArea (event) {
+    this.areaApi.post(this.area).then((area) => {
+      if (area) { return this.areaApi.get() }
+    }).then((areas) => {
+      this.setState({ areas: areas })
+      this.handleAreaDetailState()
+      this.handleNavOptionsState()
+    })
+  }
+
+  handleCreateArea (area) {
+    this.area = area
   }
 
   handleCreateState () {
@@ -49,6 +79,12 @@ export default class App extends React.Component {
     }
   }
 
+  refreshList () {
+    this.areaApi.get().then((areas) => {
+      this.setState({ areas: areas })
+    })
+  }
+
   render () {
     let sectionClasses = classNames('body-app')
     let btnPlusClasses = classNames('btn-round', 'btn-round--fixed')
@@ -59,17 +95,20 @@ export default class App extends React.Component {
           handleAreaDetailState={this.handleAreaDetailState}
           navOptionsState={this.state.navOptionsState}
           handleMenuState={this.handleMenuState}
-          handleNavOptionsState={this.handleNavOptionsState} />
+          handleNavOptionsState={this.handleNavOptionsState}
+          handleSaveArea={this.handleSaveArea} />
         <Hammer onSwipe={this.handleMenuState} direction='DIRECTION_LEFT'>
           <MenuNav menuState={this.state.menuState} />
         </Hammer>
-        <AreaList />
+        <AreaList areas={this.state.areas} />
         <button
           className={btnPlusClasses}
           onClick={this.handleCreateState}>
           <span className={spanClasses} />
         </button>
-        <AreaDetail areaDetailState={this.state.areaDetailState} />
+        <AreaDetail
+          handleCreateArea={this.handleCreateArea}
+          areaDetailState={this.state.areaDetailState} />
       </section>
     )
   }

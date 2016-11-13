@@ -6,6 +6,7 @@ export default class Header extends React.Component {
     super()
     this.handleAreaDetailState = this.handleAreaDetailState.bind(this)
     this.handleMenuState = this.handleMenuState.bind(this)
+    this.saveArea = this.saveArea.bind(this)
   }
 
   handleAreaDetailState () {
@@ -15,6 +16,10 @@ export default class Header extends React.Component {
 
   handleMenuState () {
     this.props.handleMenuState()
+  }
+
+  saveArea (event) {
+    this.props.handleSaveArea(event)
   }
 
   render () {
@@ -56,7 +61,9 @@ export default class Header extends React.Component {
           <button className={btnHeaderClasses}>
             <span className='icon-undo' />
           </button>
-          <button className={btnHeaderClasses}>
+          <button
+            onClick={this.saveArea}
+            className={btnHeaderClasses}>
             <span className='icon-done' />
           </button>
         </div>

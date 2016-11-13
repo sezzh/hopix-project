@@ -5,6 +5,10 @@ const api = require('apps/admin/api')
 
 var admin = express.Router()
 
+admin.get('/csrf', (req, res) => {
+  res.json({ csrfToken: req.csrfToken() })
+})
+
 admin.get('/', authMiddlewares.ensureAuthAdmin, (req, res) => {
   res.render('admin/admin')
 })

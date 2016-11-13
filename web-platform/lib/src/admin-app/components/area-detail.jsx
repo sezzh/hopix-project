@@ -1,9 +1,21 @@
 import React from 'react'
 import classNames from 'classnames'
+import Area from '../models/area.js'
 
 export default class ClassName extends React.Component {
   constructor () {
     super()
+    this.handleNameChange = this.handleNameChange.bind(this)
+    this.state = {
+      name: ''
+    }
+    this.area = new Area()
+  }
+
+  handleNameChange (event) {
+    this.setState({ name: event.target.value })
+    this.area.name = event.target.value
+    this.props.handleCreateArea(this.area)
   }
 
   render () {
@@ -19,7 +31,12 @@ export default class ClassName extends React.Component {
         <figure className={figureClasses}>
           <img className={imgClasses} />
         </figure>
-        <input value='Programación' className={nameClasses} />
+        <input
+          type='text'
+          placeholder='Nombre del area'
+          value={this.state.name}
+          onChange={this.handleNameChange}
+          className={nameClasses} />
       </section>
     )
   }

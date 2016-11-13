@@ -10,20 +10,15 @@ export default class AreaList extends React.Component {
   render () {
     let sectionClasses = classNames('body', 'body--header-fixed')
     let listClasses = classNames('list')
+    let areasItem = this.props.areas.map((area) => {
+      return (
+        <AreaItem key={area.id} id={area.id} name={area.name} />
+      )
+    })
     return (
       <section className={sectionClasses}>
         <ul className={listClasses}>
-          <AreaItem />
-          <AreaItem />
-          <AreaItem />
-          <AreaItem />
-          <AreaItem />
-          <AreaItem />
-          <AreaItem />
-          <AreaItem />
-          <AreaItem />
-          <AreaItem />
-          <AreaItem />
+          {areasItem}
         </ul>
       </section>
     )
