@@ -6,6 +6,7 @@ env/auth-service/authservice_secrets.env
 env/web-platform/webplatform_secrets.env
 env/auth-service/authservice_pg_secrets.env
 env/auth-service/authservice_db_secrets.env
+env/auth-service/authservice_super_permissions_secrets.env
 env/core/core_secrets.env
 env/core/core_db_secrets.env
 env/core/core_pg_secrets.env

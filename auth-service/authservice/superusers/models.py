@@ -32,24 +32,23 @@ class Superusers(db.Model, DAO):
         server_default=db.func.current_timestamp(),
         nullable='False'
     )
-    is_active = db.Column(
-        db.Boolean,
-        server_default='True',
-        nullable=False
-    )
+    is_active = db.Column(db.Boolean, server_default='True', nullable=False)
     password = db.Column(db.Text(), nullable=False)
+    permissions = db.Column(db.ARRAY(db.String, dimensions=1), nullable=False)
 
-    def __init__(self,  username, email, password):
+    def __init__(self,  username, email, password, permissions):
         """Constructor de Superusers.
 
         Argumentos:
         username - nombre del superusuario
         email - correo
         password - contraseña
+        permissions - Array de permisos
         """
         self.username = username
         self.email = email
         self.password = password
+        self.permissions = permissions
 
 
 # validator de campos vacíos

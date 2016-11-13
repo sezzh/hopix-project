@@ -1,18 +1,14 @@
 # -*- encoding: utf-8 -*-
-import os
-
-# Configuración de la base de datos
-# Variables de conexión Postgres
-pg_db_username = os.environ['AUTHSERVICE_DB_USERNAME_SECRET']
-pg_db_password = os.environ['AUTHSERVICE_DB_PASSWORD_SECRET']
-pg_db_name = os.environ['AUTHSERVICE_DB_NAME_SECRET']
-pg_db_hostname = os.environ['AUTHSERVICE_DB_HOST_SECRET']
+from config_env_app import (
+    pg_db_username, pg_db_password, pg_db_name,
+    pg_db_hostname, authservice_flask_secret
+)
 
 
 # Variables Flask
 PORT = 5000
 HOST = "0.0.0.0"
-SECRET_KEY = os.environ['AUTHSERVICE_FLASK_SECRET']
+SECRET_KEY = authservice_flask_secret
 
 # Variables SQLALCHEMY
 SQLALCHEMY_ECHO = True
@@ -20,6 +16,7 @@ SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 # Variable de conexión de SQLALCHEMY para PostgreSQL
 SQLALCHEMY_DATABASE_URI = (
+    # Configuración de la base de datos
     "postgresql://{DB_USER}:{DB_PASS}@{DB_ADDR}/{DB_NAME}".format(
         DB_USER=pg_db_username,
         DB_PASS=pg_db_password,
