@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 from jose import jwt
-from authservice.config_jwt import jwt_secret
+from authservice.config_env_authservice import jwt_secret
 
 
 def encode_token(claims):

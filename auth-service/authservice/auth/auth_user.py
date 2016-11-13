@@ -33,13 +33,17 @@ def auth_superuser(req_username, req_password, req_exp):
                 token = {
                     "type": "superuser",
                     "sub": user.username,
-                    'exp': expire,
+                    "exp": expire,
                     "id": user.id,
                     "email": user.email,
-                    "is_active": user.is_active
+                    "is_active": user.is_active,
+                    "permissions": {
+                        "everything": user.permissions
+                    }
                 }
                 results = jwt.encode_token(token)
                 res = jsonify({"token": results})
+                # res = jsonify({"token": token})
                 res.status_code = 201
             else:
                 err = ({
@@ -82,7 +86,8 @@ def auth_user(req_email, req_password, req_exp):
                     'exp': expire,
                     "id": user.id,
                     "email": user.email,
-                    "is_active": user.is_active
+                    "is_active": user.is_active,
+                    "permissions:": {}
                 }
                 results = jwt.encode_token(token)
                 res = jsonify({"token": results})

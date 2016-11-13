@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 """Modulo de migración de las tablas a la base de datos."""
-from authservice.superusers.models import db
+from authservice import db
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 from runserver import app

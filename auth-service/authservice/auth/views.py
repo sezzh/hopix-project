@@ -37,8 +37,7 @@ class Tokens(Resource):
             elif req_type == "superuser":
                 return auth_superuser(req_email, req_pw, req_exp)
             else:
-                err = {"type": ["Tipo de autentificación no válida."]}
-                return error_422(err)
+                return auth_user(req_email, req_pw, req_exp)
 
 
 api.add_resource(Tokens, '')

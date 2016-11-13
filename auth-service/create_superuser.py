@@ -3,10 +3,11 @@
 from authservice.superusers.models import Superusers
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, or_
-from config import SQLALCHEMY_DATABASE_URI
+from config_app import SQLALCHEMY_DATABASE_URI
 from authservice.lib.encrypt import encrypt_sha512
 from authservice.lib.regex_validators import validate_email, validate_password
 import getpass
+import config_env_app
 
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
 Session = sessionmaker(bind=engine)
@@ -24,7 +25,6 @@ def create_superuser():
     while not validate_email(email):
         print("¡Correo incorrecto, veriquelo por favor!")
         email = input("email: ")
-
     password = getpass.getpass("Ingrese su Contraseña: ")
     while not validate_password(password):
         print("¡Contraseña incorrecto, veriquelo por favor!")
@@ -32,7 +32,6 @@ def create_superuser():
         print("1 numero y 1 caracter especial [!#$%&/()?¿¡@;*] ")
         print("Debe ser contener de 8 a 15 caracteres")
         password = getpass.getpass("Ingrese su Contraseña: ")
-
     password = encrypt_sha512(password, 10000, 10)
     try:
         q_username = (
@@ -42,10 +41,12 @@ def create_superuser():
         if q_username > 0 or q_email > 0:
             print("¡Usuario o Correo, ya existen :( ! Intentelo nuevamente")
         else:
+            permissions = config_env_app.super_permissions.split()
             superuser = Superusers(
                                     username=username,
                                     email=email,
-                                    password=password
+                                    password=password,
+                                    permissions=permissions
             )
             try:
                 session.add(superuser)

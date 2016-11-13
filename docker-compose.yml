@@ -25,6 +25,7 @@ services:
       - ./env/auth-service/authservice.env
       - ./env/auth-service/authservice_db_secrets.env
       - ./env/auth-service/authservice_secrets.env
+      - ./env/auth-service/authservice_super_permissions_secrets.env
     environment:
       - FLASK_DEBUG=1
     volumes:
