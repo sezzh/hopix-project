@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 import re
+from authservice.config_env_authservice import pattern_password
 
 
 def validate_email(email):
@@ -28,16 +29,7 @@ def validate_password(password):
     Argumentos:
     password - String a validar
     """
-    pattern = '(?=.*[A-Z])(?=.*[!#$%&/()?¿¡@;*])(?=.*[0-9])(?=.*[a-z]).{8,15}'
-    if re.match(pattern, password):
+    if re.match(pattern_password, password):
         return True
     else:
         return False
-
-    """
-    (?=.*[A-Z])     Algúna letra en mayúscula
-    (?=.*[!#$%&/()?¿¡@;*]  Algún caracter especial de la lista
-    (?=.*[0-9])     Algún número
-    (?=.*[a-z])     Algúna letra en minúscula
-    {8,15}          dominio de 8 a 15 letras
-    """
